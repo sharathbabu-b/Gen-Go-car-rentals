@@ -18,7 +18,7 @@
         password:{
             type:String,
             required:true,
-        },
+        },git remote add origin https://github.com/sharathbabu-b/Gen-Go-car-rentals.git
         Phone:String,
         role:{
         type: String,
