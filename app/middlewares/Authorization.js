@@ -7,3 +7,4 @@ const authorization=(premittedRoles)=>{
         }
     }
 }
+export default authorization
