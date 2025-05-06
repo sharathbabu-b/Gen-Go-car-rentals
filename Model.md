@@ -56,7 +56,7 @@
         Enum:["manual","automatic"]
     },
     seats:{
-        type:Number   ex:
+        type:Number  
     },
     price_Per_Hour:{
         type:Number,

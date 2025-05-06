@@ -23,6 +23,8 @@ app.get("/",(req,res)=>{
 
 app.post("/register",checkSchema(userRegisterSchema),userCltr.register)
 app.post("/login",checkSchema(userLoginSchema),userCltr.login)
+app.post("/forgotpassword",userCltr.forgotPassword)
+app.post("/reset-password/:token",userCltr.resetPassword)
 
 
 

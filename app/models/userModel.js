@@ -1,4 +1,4 @@
-import mongoose, { STATES } from "mongoose";
+
 import  {Schema,model} from "mongoose"
 const userSchema= new Schema({
     name:String,
@@ -10,7 +10,9 @@ const userSchema= new Schema({
         enum:["admin","user","provider"],
         default:"user"
     },
-    isActive:Boolean
+    isActive:Boolean,
+    resetPasswordToken:String,
+    resetPasswordExpires:Date,
 },{timestamps:true})
 const User=model("User",userSchema)
 export default User
