@@ -39,8 +39,7 @@ const CarSchema=new Schema({
     },
 },
     images:{
-        type:String,  
-        default:[]  
+        type:[String], 
     },
 
     gpsTrack:{

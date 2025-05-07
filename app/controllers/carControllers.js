@@ -49,11 +49,11 @@ CarCltr.updateCar=async(res,req)=>{
     const body=req.body
     const id=req.params.id
     try{
-        const cars=await Cars.findByIdAndUpdate(id,body,{new:true,runValidators:true})
-        if(!cars){
+        const updateCar=await Cars.findByIdAndUpdate(id,body,{new:true,runValidators:true})
+        if(!updateCar){
             return res.status(404).json({errors:"Car not found"})
         }
-        res.status(200).json(cars)
+        res.status(200).json(updateCar)
     }catch(err){
         console.log(err)
         res.status(500).json({errors:"Something went wrong"})
@@ -68,14 +68,16 @@ CarCltr.deleteCar=async(req,res)=>{
     }
     const id=req.params.id
     try{
-        const cars=await Cars.findByIdAndDelete(id)
-        if(!cars){
+        const deleteCar=await Cars.findByIdAndDelete(id)
+        if(!deleteCar){
             return res.status(404).json({errors:"Car not found"})
         }
-        res.status(200).json({message:"car deleted successfully",cars})
+        res.status(200).json({message:"car deleted successfully",deleteCar})
     }catch(err){
         console.log(err)
         res.status(500).json({errors:"something went wrong"})
     }
 }
+//gpstrack  car
+
 export default CarCltr
