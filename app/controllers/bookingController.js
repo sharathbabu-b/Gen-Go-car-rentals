@@ -35,6 +35,23 @@ bookingCtrl.getAllBookings=async (req,res)=>{
         res.status(500).json({errors:"something went wrong"})
     }  
 }
+bookingCtrl.getbookingById=async(req,res)=>{
+    const errors=validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()})
+    }
+    const id=req.params.id
+    try{
+        const bookingId=await Booking.findById(id)
+        if(!bookingId){
+            return res.status(404).json({message:"Booking not found"})
+        }
+        res.status(200).json(bookingId)
+    }catch(error){
+        console.log(error)
+        res.status(500).json({errors:"Something went wrong"})
+    }
+}
 bookingCtrl.updateBooking=async(req,res)=>{
     const errors=validationResult(req)
     if(!errors.isEmpty()){

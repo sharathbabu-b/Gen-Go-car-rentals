@@ -7,10 +7,12 @@ import {checkSchema} from "express-validator"
 import {userRegisterSchema,userLoginSchema} from "./app/validations/userValidations.js"
 import { idValidationSchema } from "./app/validations/id-validations.js"
 import { CarSchemaValidation } from "./app/validations/cars-validations.js"
+import{bookingValidationSchema} from "./app/validations/booking-validations.js"
 import userCtrl from "./app/controllers/userController.js"
 import CarCltr from "./app/controllers/carControllers.js"
 import authenticationUser from "./app/middlewares/Authentication.js"
 import authorization from "./app/middlewares/Authorization.js"
+import bookingCtrl from "./app/controllers/bookingController.js"
 const app=express()
 const port =3500
 ConfigureData()
@@ -35,10 +37,17 @@ app.put("/activation/:id",authenticationUser,authorization,checkSchema(idValidat
 
 // Car-routes
 app.get("/getallcars",CarCltr.listAllCars)
-app.post("/addCar",authenticationUser,authorization(["admin"]),checkSchema(CarSchemaValidation),CarCltr.create)
+app.post("/addCar",authenticationUser,authorization(["admin","provider"]),checkSchema(CarSchemaValidation),CarCltr.create)
 app.get("/car/:id",authenticationUser,authorization(["admin"]),checkSchema(idValidationSchema),CarCltr.getCarByid)
-app.put("/updateCar/:id",authenticationUser,authorization(["admin"]),checkSchema(idValidationSchema),CarCltr.updateCar)
-app.delete("/deleteCar/:id",authenticationUser.authorization(["admin"]),checkSchema(idValidationSchema),CarCltr.deleteCar)
+app.put("/updateCar/:id",authenticationUser,authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.updateCar)
+app.delete("/deleteCar/:id",authenticationUser.authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.deleteCar)
+// booking routes
+app.get("/getallbooking",bookingCtrl.getAllBookings)
+app.post("/createBokking",authenticationUser,authorization(["user"]),checkSchema(bookingValidationSchema),bookingCtrl.createBooking)
+app.get("/getBookingId",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.getbookingById)
+app.put("updateBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema).bookingCtrl.updateBooking)
+app.delete("/deleteBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.deleteBooking)
+app.put("/cancelBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.cancelBooking)
 
 
 
