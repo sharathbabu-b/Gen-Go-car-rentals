@@ -44,17 +44,17 @@ export const CarSchemaValidation={
             options:{
                 min:1886,max:new Date().getFullYear()
             },
-            errorMessage:1`Year must be between 1886 and ${new Date().getFullYear()}`
+            errorMessage:`Year must be between 1886 and ${new Date().getFullYear()}`
         },
         toInt:true
     },
-    fuel_type:{
-        in:["body"],
-        isIn:{
-            options:[["petrol","diesel","ev"]],
-            errorMessage:"Fuel type must be one of petrol, diesel, or EV"
-        },
-    },
+    fuel_type: {
+  in: ["body"],
+  isIn: {
+    options: [["petrol", "diesel", "electric"]],
+    errorMessage: "Fuel type must be one of petrol, diesel, or electric"
+  },
+},
     transmission: {
         in: ['body'],
         isIn: {

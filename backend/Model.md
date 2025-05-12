@@ -78,7 +78,8 @@
     availability: {
     type: Boolean,
     default: true,
-    }, 
+    },
+    CarSchema.index({ location: "2dsphere" }) 
    
  },{timestamps:true})
 

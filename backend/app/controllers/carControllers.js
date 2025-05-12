@@ -2,7 +2,7 @@ import Cars from "../models/carModels.js"
 import {validationResult} from "express-validator"
 const CarCltr={}
 CarCltr.create=async(req,res)=>{
-    const errors=validationResult()
+    const errors=validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()})
     }
@@ -63,7 +63,7 @@ CarCltr.updateCar=async(res,req)=>{
 
 CarCltr.deleteCar=async(req,res)=>{
     const errors=validationResult(req)
-    if(!errors,isEmpty()){
+    if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()})
     }
     const id=req.params.id

@@ -31,3 +31,4 @@ const bookingSchema=new Schema({
       },
 },{timestamps:true})
 const Booking=model("Booking",bookingSchema)
+export default Booking
