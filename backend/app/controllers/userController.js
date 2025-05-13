@@ -99,7 +99,7 @@ userCtrl.delete=async(res,req)=>{
     }
 
 }
-userCtrl.account=async(res,req)=>{
+userCtrl.account=async(req,res)=>{
     try{
         const user=await User.findById(req.userId)
         res.json(user)

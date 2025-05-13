@@ -32,7 +32,7 @@ app.post("/forgotpassword",userCtrl.forgotPassword)
 app.post("/reset-password/:token",userCtrl.resetPassword)
 app.get("/allusers",authenticationUser,userCtrl.allusers)
 app.delete("/removeaccountuser/:id",authenticationUser,checkSchema(idValidationSchema),userCtrl.delete)
-app.put("/updateuseraccount",authenticationUser,checkSchema(idValidationSchema),userCtrl.update)
+app.put("/updateuseraccount/:id",authenticationUser,checkSchema(idValidationSchema),userCtrl.update)
 app.put("/activation/:id",authenticationUser,authorization,checkSchema(idValidationSchema),userCtrl.UpdateActivation)
 
 // Car-routes
