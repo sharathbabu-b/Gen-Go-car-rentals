@@ -1,6 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit"
 import userReducer from "../slices/userSlice"
 const carStore=configureStore({
-    user:userReducer
+    reducer:{
+         user:userReducer
+    }
+   
 })
-export default configureStore
+export default carStore
