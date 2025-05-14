@@ -15,7 +15,7 @@ export default function ResetPassword(){
             return
         }
         try{
-            const response=await axios.post(`/reset-password/${token}`,{password,confirmPassword})
+            const response=await axios.post(`/resetpassword/${token}`,{password,confirmPassword})
             setSuccess(response.data.message || "Password reset successfull")
             setTimeout(()=>{
                 navigate("/login")

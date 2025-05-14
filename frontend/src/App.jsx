@@ -10,18 +10,20 @@ import Cars from './components/carsContainer'
 import PrivateRoute from "./components/privateRoute"
 import ProtectedRoute from "./components/protectedRoute"
 import Unauthorized from "./components/unauathorized"
+import ForgotPassword from "./components/forgotpassword"
+import ResetPassword from './components/restpassword'
+import UserList from './components/userList'
 import { logout, fetchUserAccount } from "./slices/userSlice"
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
+  useEffect(()=>{
+    if(localStorage.getItem("token")){
       dispatch(fetchUserAccount())
     }
-  }, [dispatch])
+  },[dispatch])
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
@@ -34,6 +36,14 @@ function App() {
               {userData && userData.role === "provider" && (
                 <Link to="/cars" className="text-gray-700 hover:text-indigo-600 font-medium">Cars</Link>
               )}
+              {userData&&userData.role === "admin" && (
+                  <Link
+                    to="/userlist"
+                    className="text-blue-600 hover:text-blue-800 transition"
+                  >
+                    UserList
+                  </Link>
+                )}
               <button
                 onClick={() => {
                   dispatch(logout())
@@ -50,6 +60,7 @@ function App() {
               <Link to="/" className="text-gray-700 hover:text-indigo-600 font-medium">Home</Link>
               <Link to="/register" className="text-gray-700 hover:text-indigo-600 font-medium">Register</Link>
               <Link to="/login" className="text-gray-700 hover:text-indigo-600 font-medium">Login</Link>
+              
             </>
           )}
         </div>
@@ -60,8 +71,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/userlist" element={<UserList/>} />
+          
           <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
           <Route path="/cars" element={<PrivateRoute><ProtectedRoute roles={["provider"]}><Cars /></ProtectedRoute></PrivateRoute>} />
+          <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+          <Route path="/resetpassword" element={<ResetPassword/>}/>
+
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </main>
