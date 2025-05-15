@@ -1,108 +1,69 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { MapPin, Search, CarFront, Calendar, User2 } from 'lucide-react';
 
-const cars = [
-  {
-    id: 1,
-    name: "Toyota Corolla",
-    price: "$40/day",
-    image: "/images/corolla.jpg",
-  },
-  {
-    id: 2,
-    name: "Tesla Model 3",
-    price: "$100/day",
-    image: "/images/tesla.jpg",
-  },
-  {
-    id: 3,
-    name: "BMW X5",
-    price: "$80/day",
-    image: "/images/bmw.jpg",
-  },
-];
-
-const HomePage = () => {
-  const navigate = useNavigate();
-  const [startPoint, setStartPoint] = useState("");
-  const [destination, setDestination] = useState("");
-
-  const handleCarClick = (carId) => {
-    navigate(`/cars/${carId}`);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Optionally filter cars or redirect to search result page
-    console.log("Searching from:", startPoint, "to:", destination);
-  };
-
+const CarRentalHome = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="bg-blue-600 text-white p-4 text-center text-2xl font-bold">
-        Welcome to GEN-GO Car Rentals
-      </header>
-
-      {/* Search Fields */}
-      <section className="bg-white py-6 px-4 md:px-10 shadow-sm">
-        <form
-          onSubmit={handleSearch}
-          className="flex flex-col md:flex-row gap-4 items-center justify-center"
-        >
-          <input
-            type="text"
-            placeholder="Start Point"
-            value={startPoint}
-            onChange={(e) => setStartPoint(e.target.value)}
-            className="p-2 w-full md:w-64 border border-gray-300 rounded-md"
-          />
-          <input
-            type="text"
-            placeholder="Destination"
-            value={destination}
-            onChange={(e) => setDestination(e.target.value)}
-            className="p-2 w-full md:w-64 border border-gray-300 rounded-md"
-          />
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-          >
-            Search
-          </button>
-        </form>
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      {/* Hero Banner */}
+      <section className="bg-cover bg-center h-[80vh] flex items-center justify-center bg-[url('/banner-gengo.jpg')]">
+        <div className="bg-black bg-opacity-60 p-10 rounded-xl text-white text-center max-w-2xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">GEN-GO Car Rentals</h1>
+          <p className="text-lg">Your ride, your rules – Drive smart with GEN-GO.</p>
+        </div>
       </section>
 
-      {/* Body - Featured Cars */}
-      <main className="flex-grow p-6 bg-gray-100">
-        <h2 className="text-xl font-semibold mb-4">Featured Cars</h2>
+      {/* Search Form */}
+      <section className="px-4 md:px-10 py-8 bg-white shadow-lg -mt-20 relative z-10 rounded-xl max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-50">
+            <MapPin className="mr-2" />
+            <input type="text" placeholder="Pickup Location" className="bg-transparent outline-none w-full" />
+          </div>
+          <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-50">
+            <Calendar className="mr-2" />
+            <input type="date" className="bg-transparent outline-none w-full" />
+          </div>
+          <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-50">
+            <Calendar className="mr-2" />
+            <input type="date" className="bg-transparent outline-none w-full" />
+          </div>
+          <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-50">
+            <User2 className="mr-2" />
+            <input type="number" placeholder="Passengers" className="bg-transparent outline-none w-full" />
+          </div>
+          <button className="bg-[#1e40af] text-white rounded-lg px-4 py-2 flex items-center justify-center hover:bg-[#1c3fa0]">
+            <Search className="mr-2" /> Search
+          </button>
+        </div>
+      </section>
+
+      {/* Available Cars Section */}
+      <section className="py-12 px-6 md:px-10 bg-gray-100">
+        <h2 className="text-2xl font-bold mb-6">Popular Cars on GEN-GO</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {cars.map((car) => (
-            <div
-              key={car.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition"
-              onClick={() => handleCarClick(car.id)}
-            >
+          {['Swift', 'Creta', 'Innova'].map((car, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
               <img
-                src={car.image}
-                alt={car.name}
-                className="h-48 w-full object-cover"
+                src={`/cars/${car.toLowerCase()}.jpg`}
+                alt={car}
+                className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-bold">{car.name}</h3>
-                <p className="text-gray-600">{car.price}</p>
+                <h3 className="text-lg font-semibold">{car}</h3>
+                <p className="text-sm text-gray-600">Manual | Petrol | 5 Seater</p>
+                <div className="mt-3 flex justify-between items-center">
+                  <span className="font-bold text-[#1e40af]">₹450/day</span>
+                  <button className="bg-[#1e40af] text-white text-sm px-3 py-1 rounded hover:bg-[#1c3fa0]">
+                    Book Now
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-blue-600 text-white text-center p-4 mt-6">
-        © {new Date().getFullYear()} GEN-GO. All rights reserved.
-      </footer>
+      </section>
     </div>
   );
 };
 
-export default HomePage;
+export default CarRentalHome;
