@@ -1,6 +1,6 @@
 import {Schema,model} from "mongoose"
-import razorpay from "../../utils/razorpay"
-const paymentSchema=({
+
+const paymentSchema= new Schema({
     bookingId: {
         type: Schema.Types.ObjectId,
         ref: 'Booking',
@@ -13,7 +13,7 @@ const paymentSchema=({
       paymentMethod: {type:String,enum:["razorpay"]},
       paymentStatus: {
          type: String,
-         enum: ['success', 'failed',"refund"],
+         enum: ['success', 'pending','failed'],
          default: 'pending',
        },
 

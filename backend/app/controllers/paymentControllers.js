@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 import Payment from "../models/paymentModels.js";
+import crypto from "crypto"
 import razorpay from "../../utils/razorpay.js";
 const paymentCtrl={}
 paymentCtrl.getallPayments=async(req,res)=>{
@@ -122,11 +123,11 @@ paymentCtrl.deletePayment=async(req,res)=>{
 // razorpay 
 paymentCtrl.createRazorpayOrder=async(req,res)=>{
     const{amount,currency="INR",bookingId,carId,userId}=req.body
-    if(!amount||!userId||!bookingId||!carId||!transactionId){
+    if(!amount||!userId||!bookingId||!carId){
         return res.status(400).json({errors:"Missing required fields"})
     }
     try{
-        const existing = await Payment.findOne({ transactionId });
+        const existing = await Payment.findOne({ bookingId, userId, carId });
     if (existing) {
       return res.status(400).json({ error: "Transaction already exists" });
     }
@@ -140,25 +141,25 @@ paymentCtrl.createRazorpayOrder=async(req,res)=>{
             bookingId,
             carId,
             amount,
-            userId,amount,
+            userId,
             paymentMethod:"razorpay",
             paymentStatus:"pending",
-            transactionId,
+            
         })
         res.status(201).json({
             orderId:order.id,
             razorpayKey:process.env.RAZORPAY_KEY_ID,
-            payment
+            payment,
         })
 
     }catch(error){
-        console.log(err)
+        console.log(error)
         res.status(500).json({errors:"Failed to create Razorpay order"})
     }
 }
 paymentCtrl.verifyRazorpayPayment=async(req,res)=>{
-    const{razorpay_order_id,razorpay_payment_id,razorpay_signature,transactionId}=req.body
-    if(!razorpay_order_id||!razorpay_payment_id||!razorpay_signature||!transactionId){
+    const{razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body
+    if(!razorpay_order_id||!razorpay_payment_id||!razorpay_signature){
         return res.status(400).json({errors:"Missing required fields for verification"})
     }
     try{
@@ -170,7 +171,7 @@ paymentCtrl.verifyRazorpayPayment=async(req,res)=>{
         if(expectedSignature!==razorpay_signature){
             return res.status(400).json({error:'Invalid signature'})
         }
-        const payment=await Payment.findOne(transactionId);
+        const payment=await Payment.findOne({razorpay_order_id});
         if(!payment){
             return res.status(404).json({error:"payment record not found"})
         }

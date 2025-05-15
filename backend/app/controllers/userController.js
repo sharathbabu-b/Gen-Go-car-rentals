@@ -125,6 +125,7 @@ userCtrl.forgotPassword=async(req,res)=>{
         user.resetPasswordToken=token
         user.resetPasswordExpires=Date.now()+600000
         await user.save()
+        console.log(process.env.FRONTEND_URL)
         const resetLink=`${process.env.FRONTEND_URL}/reset-password/${token}`
         const message=`We have received a reset password request. Please use the link below to reset your password:\n\n${resetLink}\n\nThis link is valid for 10 minutes.`
         console.log(user.email)

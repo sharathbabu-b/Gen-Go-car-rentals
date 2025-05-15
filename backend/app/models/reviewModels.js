@@ -1,5 +1,5 @@
 import {Schema,model} from "mongoose"
-const reviewSchema=({
+const reviewSchema= new Schema({
     car: { 
         type:Schema.Types.ObjectId, 
         ref: 'Car',  

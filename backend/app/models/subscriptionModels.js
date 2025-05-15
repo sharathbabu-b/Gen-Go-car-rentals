@@ -1,5 +1,5 @@
 import {Schema,model} from "mongoose"
-const subscriptionSchema=({
+const subscriptionSchema= new Schema({
     userId: {
         type:Schema.Types.ObjectId,
         ref: 'User'
@@ -19,7 +19,7 @@ const subscriptionSchema=({
             type:Date,
         },
         isActive:{
-            type:boolean,
+            type:Boolean,
             default:true
         }
 },{timestamps:true})

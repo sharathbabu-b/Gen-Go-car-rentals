@@ -8,6 +8,14 @@ CarCltr.create=async(req,res)=>{
     }
     const body=req.body
     try{
+          const geoData = await forwardGeocode(address);
+    const feature = geoData.features[0];
+
+    if (!feature) {
+      return res.status(400).json({ errors: 'Invalid address provided' });
+    }
+
+    const { lat, lon } = feature.properties;
         const car=await Cars.create(body)
         res.status(201).json(car)
     }catch(err){
@@ -78,6 +86,37 @@ CarCltr.deleteCar=async(req,res)=>{
         res.status(500).json({errors:"something went wrong"})
     }
 }
-//gpstrack  car
+CarCltr.findNearbyCars = async (req, res) => {
+  const { lat, lon, radius } = req.query;
+
+  // Validate input
+  if (!lat || !lon || isNaN(lat) || isNaN(lon)) {
+    return res.status(400).json({ errors: 'Latitude and longitude are required and must be valid numbers.' });
+  }
+
+  const searchRadius = radius ? parseInt(radius) : 10000; // default 10km
+
+  try {
+    const cars = await Cars.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [parseFloat(lon), parseFloat(lat)]
+          },
+          $maxDistance: searchRadius
+        }
+      },
+      availability: true
+    });
+
+    res.status(200).json(cars);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errors: 'Failed to find nearby cars' });
+  }
+};
+
+
 
 export default CarCltr

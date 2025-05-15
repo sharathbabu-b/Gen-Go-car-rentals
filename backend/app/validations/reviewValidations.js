@@ -1,5 +1,5 @@
-import Review from "../models/reviewModels";
-export const createReviewValidation = {
+import Review from "../models/reviewModels.js";
+export const ReviewSchemaValidation = {
     carId: {
       in: ['body'],
       exists: { errorMessage: 'carId is required' },

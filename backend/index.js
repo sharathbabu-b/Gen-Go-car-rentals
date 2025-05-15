@@ -8,11 +8,18 @@ import {userRegisterSchema,userLoginSchema} from "./app/validations/userValidati
 import { idValidationSchema } from "./app/validations/id-validations.js"
 import { CarSchemaValidation } from "./app/validations/cars-validations.js"
 import{bookingValidationSchema} from "./app/validations/booking-validations.js"
+import {SubscriptionSchemaValidation} from "./app/validations/subscription.js"
+import {createPaymentValidation} from "./app/validations/paymentValidations.js"
+import {ReviewSchemaValidation} from "./app/validations/reviewValidations.js"
 import userCtrl from "./app/controllers/userController.js"
 import CarCltr from "./app/controllers/carControllers.js"
 import authenticationUser from "./app/middlewares/Authentication.js"
 import authorization from "./app/middlewares/Authorization.js"
 import bookingCtrl from "./app/controllers/bookingController.js"
+import  subscriptionCtrl from "./app/controllers/subscriptionplanControllers.js"
+import reviewCtrl  from "./app/controllers/reviewController.js"
+import paymentCtrl from "./app/controllers/paymentControllers.js"
+
 const app=express()
 const port =3500
 ConfigureData()
@@ -48,6 +55,32 @@ app.get("/getBookingId",authenticationUser,authorization(["user"]),checkSchema(i
 app.put("updateBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.updateBooking)
 app.delete("/deleteBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.deleteBooking)
 app.put("/cancelBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.cancelBooking)
+
+// SUBSCRIPTION PLANS ROUTES
+app.get("/subscriptionsGetall", authenticationUser,authorization(['admin']),subscriptionCtrl.listAll)
+app.post('/createsubscriptions',authenticationUser,authorization(['user', 'admin']),checkSchema(SubscriptionSchemaValidation),subscriptionCtrl.create);
+app.put('/updatesubscriptions/:id', authenticationUser,authorization(['user', 'admin']),checkSchema(SubscriptionSchemaValidation),subscriptionCtrl.update);
+app.delete('/removesubscriptions/:id',authenticationUser,authorization(['admin']),checkSchema(idValidationSchema),subscriptionCtrl.delete);
+app.get('/subscriptions/:id',authenticationUser,authorization(['user', 'admin']),checkSchema(idValidationSchema),subscriptionCtrl.getById);
+
+// payments
+// app.post('/payment',authenticationUser,checkSchema(createPaymentValidation),paymentCtrl.createPayment);
+app.get('/payments',authenticationUser,authorization(['admin']),paymentCtrl.getallPayments)
+app.delete('/payment/:id',authenticationUser,authorization(['admin']),checkSchema(idValidationSchema),paymentCtrl.deletePayment)
+app.get('/payment/:id',authenticationUser,checkSchema(idValidationSchema),paymentCtrl.getPaymentById)
+// app.get('/payment/user',authenticationUser,paymentCtrl.getUserPayments)
+app.post('/payment/razor',paymentCtrl.createRazorpayOrder)
+app.post('/payments/verify-razorpay',paymentCtrl.verifyRazorpayPayment)
+app.put('/payment/complete/:id',authenticationUser,checkSchema(idValidationSchema),paymentCtrl.completePayment)
+//app.put('/payment/refund/:id',authenticationUser,checkSchema(idValidationSchema),paymentCtrl.refundPayment)
+
+
+// reviewRoutes
+app.post('/review',authenticationUser,checkSchema(ReviewSchemaValidation),reviewCtrl.createReview)
+app.get('/reviewcars/:id',authenticationUser,checkSchema(idValidationSchema),reviewCtrl.getCarReviews)
+app.get('/review/users/:id',authenticationUser,checkSchema(idValidationSchema),reviewCtrl.getUserReviews)
+app.put('/reviewupdate/:id',authenticationUser,checkSchema(idValidationSchema),reviewCtrl.updateReview)
+app.delete('/reviewdelete/:id',authenticationUser,checkSchema(idValidationSchema),reviewCtrl.deleteReview)
 
 
 

@@ -1,4 +1,4 @@
-import Payment from "../models/paymentModels";
+import Payment from "../models/paymentModels.js"
 export const createPaymentValidation = {
     bookingId: {
       in: ['body'],

@@ -19,7 +19,7 @@ subscriptionCtrl.create = async (req, res) => {
     }
 };
 
-subscriptionCtrl.listAll = async (req, res) => {
+subscriptionCtrl.listAll= async (req, res) => {
     try {
         const subscriptions = await Subscription.find()
             .populate("userId", "name email");

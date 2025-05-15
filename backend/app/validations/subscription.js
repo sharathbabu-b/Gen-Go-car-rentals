@@ -1,4 +1,4 @@
-import Subscription from "../models/subscriptionModels";
+import Subscription from "../models/subscriptionModels.js";
 export const SubscriptionSchemaValidation = {
   userId: {
     in: ["body"],
