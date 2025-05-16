@@ -32,14 +32,15 @@ const CarSchema=new Schema({
     location:{
         type:{
           type:String,
-        enum:["point"],
+        enum:["Point"],
+        default:"Point"
         } ,
         coordinates: {
             type: [Number],     // latitude and longitude # geoapify 
     },
 },
     images:{
-        type:[String], 
+        type:String, 
     },
 
     gpsTrack:{
@@ -51,5 +52,6 @@ const CarSchema=new Schema({
         default: true,
     }, 
 },{timestamps:true})
+CarSchema.index({location:"2dsphere"})
 const Cars=model("Cars",CarSchema)
 export default Cars

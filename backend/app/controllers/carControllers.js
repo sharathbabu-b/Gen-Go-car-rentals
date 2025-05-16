@@ -1,5 +1,6 @@
 import Cars from "../models/carModels.js"
 import {validationResult} from "express-validator"
+import { forwardGeocode } from "../../utils/geoapify.js"
 const CarCltr={}
 CarCltr.create=async(req,res)=>{
     const errors=validationResult(req)
@@ -8,7 +9,7 @@ CarCltr.create=async(req,res)=>{
     }
     const body=req.body
     try{
-          const geoData = await forwardGeocode(address);
+          const geoData = await forwardGeocode(body.address);
     const feature = geoData.features[0];
 
     if (!feature) {

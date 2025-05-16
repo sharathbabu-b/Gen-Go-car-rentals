@@ -69,33 +69,33 @@ export const CarSchemaValidation = {
     },
     toFloat: true,
   },
-  location: {
-    in: ["body"],
-    custom: {
-      options: (value) => {
-        if (
-          typeof value !== "object" ||
-          value.type !== "Point" ||
-          !Array.isArray(value.coordinates) ||
-          value.coordinates.length !== 2
-        ) {
-          throw new Error("Location must be a GeoJSON Point with [longitude, latitude]");
-        }
+  // location: {
+  //   in: ["body"],
+  //   custom: {
+  //     options: (value) => {
+  //       if (
+  //         typeof value !== "object" ||
+  //         value.type !== "Point" ||
+  //         !Array.isArray(value.coordinates) ||
+  //         value.coordinates.length !== 2
+  //       ) {
+  //         throw new Error("Location must be a GeoJSON Point with [longitude, latitude]");
+  //       }
 
-        const [lng, lat] = value.coordinates;
-        if (
-          typeof lng !== "number" ||
-          typeof lat !== "number" ||
-          lng < -180 || lng > 180 ||
-          lat < -90 || lat > 90
-        ) {
-          throw new Error("Coordinates must be valid longitude and latitude numbers");
-        }
+  //       const [lng, lat] = value.coordinates;
+  //       if (
+  //         typeof lng !== "number" ||
+  //         typeof lat !== "number" ||
+  //         lng < -180 || lng > 180 ||
+  //         lat < -90 || lat > 90
+  //       ) {
+  //         throw new Error("Coordinates must be valid longitude and latitude numbers");
+  //       }
 
-        return true;
-      },
-    },
-  },
+  //       return true;
+  //     },
+  //   },
+  // },
   images: {
     in: ["body"],
     optional: true,

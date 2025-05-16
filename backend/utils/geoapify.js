@@ -1,8 +1,12 @@
 import axios from 'axios';
+import dotenv, { config } from "dotenv"
+config()
 
 const GEOAPIFY_API_KEY = process.env.GEOAPIFY_API_KEY; // Store in .env
+console.log(GEOAPIFY_API_KEY)
 
 export const forwardGeocode = async (address) => {
+  
   const url = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(address)}&apiKey=${GEOAPIFY_API_KEY}`;
   const response = await axios.get(url);
   return response.data;
