@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../axios/axios";;
+import axios from "../axios/axios";import { act } from "react";
+;
 export const fetchCars=createAsyncThunk("cars/fetchCars",async()=>{
     try{
         const response=await axios.get("/getallcars")
@@ -40,6 +41,21 @@ export const updateCars=createAsyncThunk("cars/updateCars",async({carsObj,resetF
         })
     }
 })
+export const deleteCars=createAsyncThunk("cars/deleteCars",async(id,{rejectWithValue})=>{
+    try{
+        console.log(id)
+        const response=await axios.delete(`/deleteCar/${id}`,{headers:{Authorization:localStorage.getItem("token")}})
+        console.log(response.data)
+        return response.data
+    }catch(error){
+        console.log(error)
+        return rejectWithValue({
+            message:error.message,
+            errors:error.response.data.errors
+
+        })
+    }
+})
 const carSlice=createSlice({
     name:"cars",
     initialState:{
@@ -66,6 +82,40 @@ const carSlice=createSlice({
             state.loading=false
             state.serverErr="Something went wrong"
         })
+        builder.addCase(createCars.pending,(state)=>{
+            state.loading=true
+        })
+        builder.addCase(createCars.fulfilled,(state,action)=>{
+            state.data.push(action.payload)
+        })
+        builder.addCase(updateCars.pending,(state)=>{
+            state.loading=true
+            state.serverErr = null;
+        })
+        builder.addCase(updateCars.fulfilled,(state,action)=>{
+            const index=state.carsData.findIndex(ele=>ele._id===action.payload._id)
+            state.data[index]=action.payload
+            state.carsEditId=null
+            state.serverErr=null
+        })
+        builder.addCase(updateCars.rejected,(state,action)=>{
+             state.loading = false;
+            state.serverErr=action.payload
+        })
+        builder.addCase(deleteCars.pending,(state)=>{
+            state.loading=true
+            state.serverErr = null;
+        })
+        builder.addCase(deleteCars.fulfilled,(state,action)=>{
+            const index=state.carsData.findIndex(ele=>ele._id===action.payload._id)
+            state.carsData.splice(index,1)
+        })
+        builder.addCase(deleteCars.rejected,(state,action)=>{
+            state.serverErr = null;
+            state.serverErr = action.payload
+        })
+
+
     
     }
 })
