@@ -1,6 +1,6 @@
 import {createSlice,createAsyncThunk} from "@reduxjs/toolkit"
 import axios from "../axios/axios"
-import { act } from "react"
+
 export const fetchUserAccount=createAsyncThunk("user/fetchUserAccount",async(_,{rejectWithValue})=>{
     try{
         const response=await axios.get("/account",{headers:{Authorization:localStorage.getItem('token')}})

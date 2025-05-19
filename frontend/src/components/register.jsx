@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "../axios/axios";
 import { isEmail } from "validator";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react"; // Optional: lucide-react icons
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -54,8 +54,11 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+    <div className="min-h-screen flex items-right justify-end px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-100 to-indigo-100 bg-cover bg-center bg-no-repeat" 
+         style={{ 
+           backgroundImage: "url('https://i.pinimg.com/736x/b8/46/3d/b8463dce728fb896bba18846e9e04c9e.jpg')",
+         }}>
+      <div className="w-full max-w-md bg-white bg-opacity-95 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-gray-200">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Sign Up</h2>
 
         {serverErrors && (
@@ -93,7 +96,7 @@ export default function Register() {
               className="mt-1 w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@email.com"
+              placeholder="enter your email"
             />
             {clientErrors.email && <p className="text-red-500 text-xs mt-1">{clientErrors.email}</p>}
           </div>
@@ -198,7 +201,7 @@ export default function Register() {
         </form>
 
         <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{" "}
+          Already have an account?
           <a href="/login" className="text-blue-600 hover:underline">Sign In</a>
         </p>
       </div>

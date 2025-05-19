@@ -3,6 +3,7 @@ import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import About from './components/about';
+import Home from './pages/home';
 import Register from './components/register';
 import Login from './components/login';
 import Account from './components/account';
@@ -13,8 +14,10 @@ import Unauthorized from './components/unauathorized';
 import ForgotPassword from './components/forgotpassword';
 import ResetPassword from './components/restpassword';
 import UserList from './components/userList';
-import SubscriptionPage from './components/subscription';
-import TermsAndConditions from "./components/terms &conditions"
+import AdminDashboard from './pages/adminDashboard';
+import UserCarBooking from './components/booking/usercarbooking';
+// import SubscriptionPage from './components/subscription';
+// import TermsAndConditions from "./components/terms &conditions"
 import { logout, fetchUserAccount } from './slices/userSlice';
 
 function App() {
@@ -28,9 +31,6 @@ function App() {
     }
   }, [dispatch]);
 
-  const handleFindNow = () => {
-    navigate('/cars');
-  };
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-gray-100">
@@ -56,10 +56,17 @@ function App() {
                 </Link>
               )}
               {userData?.role === 'admin' && (
+                <>
                 <Link to="/userlist" className="text-gray-300 hover:text-white font-medium">
                   UserList
                 </Link>
+                <Link to="/admindashboard"  className="text-gray-300 hover:text-white font-medium">Dashboard</Link>
+                </>
               )}
+              {/* {userData?.role==="user"&&(
+                <>
+                </>
+              )} */}
               <button
                 onClick={() => {
                   dispatch(logout());
@@ -73,14 +80,8 @@ function App() {
             </>
           ) : (
             <>
-              <Link to="/subscription" className="text-gray-300 hover:text-white font-medium">
-                Subscription
-              </Link>
-              <Link to="/about" className="text-gray-300 hover:text-white font-medium">
-                About Us
-              </Link>
-              <Link to="/terms" className="text-gray-300 hover:text-white font-medium">
-                Terms & Conditions
+               <Link to="/register" className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-md">
+                Register
               </Link>
               <Link to="/login" className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-md">
                 Login
@@ -95,16 +96,18 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home/>}/>
           <Route path="/userlist" element={<UserList />} />
           <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
-          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/admindashboard" element={<AdminDashboard/>}/>
+          <Route path='/carbooking' element={<UserCarBooking/>}/>
           <Route path="/about" element={<About />} />
-          <Route path="/subscription" element={<SubscriptionPage />} />
+         
           <Route
             path="/cars"
             element={
               <PrivateRoute>
-                <ProtectedRoute roles={['provider']}>
+                <ProtectedRoute roles={['provider','user']}>
                   <Cars />
                 </ProtectedRoute>
               </PrivateRoute>

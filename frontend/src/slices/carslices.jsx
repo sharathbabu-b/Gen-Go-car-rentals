@@ -1,13 +1,17 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axios/axios";import { act } from "react";
 ;
-export const fetchCars=createAsyncThunk("cars/fetchCars",async()=>{
+export const fetchCars=createAsyncThunk("cars/fetchCars",async(_,{rejectWithValue})=>{
     try{
         const response=await axios.get("/getallcars")
         console.log(response.data)
         return response.data
     }catch(error){
         console.log(error)
+        return rejectWithValue({
+            message:error?.message|| "something went wrong",
+             errors:error?.response.data.errors
+        })
     }
 })
 export const createCars=createAsyncThunk("cars/createCars",async({formData,resetForm},{rejectWithValue})=>{

@@ -77,14 +77,7 @@ export default function Account() {
             htmlFor="profileImage"
             className="absolute bottom-0 right-0 bg-indigo-600 text-white rounded-full p-2 cursor-pointer hover:bg-indigo-700 transition"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M4 5a2 2 0 012-2h8a2 0 012 2v8a2 2 0 01-2 2H6a2 0 01-2-2V5zm2 0h8v4l-2-2-3 3-1-1-2 2V5zm0 8h8v-2l-2-2-3 3-1-1-2 2v2z" />
-            </svg>
+            
           </label>
           <input
             id="profileImage"
