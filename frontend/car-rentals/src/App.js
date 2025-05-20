@@ -1,41 +1,10 @@
-import { Link, Routes, Route, useNavigate } from 'react-router-dom';
+import {Link,Routes,Route} from "react-router-dom"
 import './App.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import About from './components/about';
-// import Home from './pages/home';
-import Register from './components/register';
-import Login from './components/login';
-import Account from './components/account';
-import Cars from './components/carsContainer';
-import PrivateRoute from './components/privateRoute';
-import ProtectedRoute from './components/protectedRoute';
-import Unauthorized from './components/unauathorized';
-import ForgotPassword from './components/forgotpassword';
-import ResetPassword from './components/restpassword';
-import UserList from './components/userList';
-import AdminDashboard from './pages/adminDashboard';
-import UserCarBooking from './components/booking/usercarbooking';
-// import SubscriptionPage from './components/subscription';
-// import TermsAndConditions from "./components/terms &conditions"
-import { logout, fetchUserAccount } from './slices/userSlice';
-import { fetchCars } from './slices/carslices';
+import Register from './pages/registerform';
 
 function App() {
-  const { isLoggedIn, userData } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(fetchUserAccount());
-      dispatch(fetchCars())
-    }
-  }, [dispatch]);
-
-
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gray-100">
+     <div className="h-screen w-screen overflow-hidden bg-gray-100">
       {/* Fixed Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4 bg-gray-900 text-white shadow-md">
         <div className="flex items-center space-x-2">
