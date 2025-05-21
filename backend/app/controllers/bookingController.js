@@ -6,9 +6,10 @@ bookingCtrl.createBooking = async (req, res) => {
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()})
     }
-    const body=req.body
+    const {userId,carId,pickup_Location,dropoff_Location,endDate,startDate,totalPrice}=req.body
+    
     try {
-      const booking = new Booking(body);
+      const booking = new Booking({userId:req.userId,carId,pickup_Location,dropoff_Location,endDate,startDate,totalPrice});
       await booking.save();
       res.status(201).json(booking);
     } catch (error) {

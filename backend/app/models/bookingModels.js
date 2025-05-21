@@ -11,10 +11,10 @@ const bookingSchema=new Schema({
       pickup_Location: String,
       dropoff_Location: String,
       startDate:{
-        type:Date
+        type:String
       },
       endDate: { 
-        type:Date
+        type:String
         },
       totalPrice:{
         type:Number

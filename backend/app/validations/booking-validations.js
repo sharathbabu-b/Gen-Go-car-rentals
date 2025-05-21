@@ -1,17 +1,17 @@
 import Booking from "../models/bookingModels.js"
 export const bookingValidationSchema={
-    userId: {
-        in: ['body'],
-        exists: {
-          errorMessage: 'User ID is required'
-        },
-        notEmpty: {
-          errorMessage: 'User ID cannot be empty'
-        },
-        isMongoId: {
-          errorMessage: 'Invalid User ID'
-        },
-      },
+    // userId: {
+    //     in: ['body'],
+    //     exists: {
+    //       errorMessage: 'User ID is required'
+    //     },
+    //     notEmpty: {
+    //       errorMessage: 'User ID cannot be empty'
+    //     },
+    //     isMongoId: {
+    //       errorMessage: 'Invalid User ID'
+    //     },
+    //   },
       carId: {
         in: ['body'],
         exists: {

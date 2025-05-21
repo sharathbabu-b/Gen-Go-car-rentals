@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import morgan from "morgan"
+// import morgan from "morgan"
 import ConfigureData from "./confiq/db.js"
 import dotenv from "dotenv"
 import {checkSchema} from "express-validator"
@@ -26,7 +26,7 @@ ConfigureData()
 dotenv.config()
 app.use(express.json())
 app.use(cors())
-app.use(morgan(":remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms"))
+// app.use(morgan(":remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms"))
 
 app.get("/",(req,res)=>{
     res.send("welcome to Gengo car rentals")
@@ -50,11 +50,11 @@ app.put("/updateCar/:id",authenticationUser,authorization(["admin","provider"]),
 app.delete("/deleteCar/:id",authenticationUser,authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.deleteCar)
 // booking routes
 app.get("/getallbooking",bookingCtrl.getAllBookings)
-app.post("/createBokking",authenticationUser,authorization(["user"]),checkSchema(bookingValidationSchema),bookingCtrl.createBooking)
-app.get("/getBookingId",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.getbookingById)
-app.put("updateBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.updateBooking)
-app.delete("/deleteBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.deleteBooking)
-app.put("/cancelBooking",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.cancelBooking)
+app.post("/createBooking",authenticationUser,authorization(["user"]),checkSchema(bookingValidationSchema),bookingCtrl.createBooking)
+app.get("/getBookingId/:id",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.getbookingById)
+app.put("updateBooking/:id",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.updateBooking)
+app.delete("/deleteBooking/:id",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.deleteBooking)
+app.put("/cancelBooking/:id",authenticationUser,authorization(["user"]),checkSchema(idValidationSchema),bookingCtrl.cancelBooking)
 
 // SUBSCRIPTION PLANS ROUTES
 app.get("/subscriptionsGetall", authenticationUser,authorization(['admin']),subscriptionCtrl.listAll)
