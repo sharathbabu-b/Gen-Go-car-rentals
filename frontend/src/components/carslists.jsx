@@ -1,11 +1,16 @@
 import { useSelector,useDispatch } from "react-redux";
 import { useEffect } from "react";
-import {fetchCars} from "../slices/carslices"
+import {useNavigate} from "react-router-dom"
+import {fetchCars,assignEditId,deleteCars} from "../slices/carslices"
 export default function CarLists(){
+  const navigate=useNavigate()
   const dispatch=useDispatch()
   useEffect(()=>{
     dispatch(fetchCars())
   },[dispatch])
+  const {userData} =useSelector((state)=>{
+    return state.user
+  })
   const {carsData}=useSelector((state)=>{
     return state.cars
   })
@@ -17,7 +22,7 @@ export default function CarLists(){
         {carsData.map((car) => (
           <div key={car._id} className="bg-white shadow-md rounded-2xl overflow-hidden">
             <img
-              src={car.images || ""}
+              src={car.images || "https://tse3.mm.bing.net/th?id=OIP.cjUjzALkEKobv8G4Evr6GQHaEK&pid=Api&P=0&h=180"}
               alt={car.carName}
               className="w-full h-52 object-cover"
             />
@@ -32,9 +37,23 @@ export default function CarLists(){
               </p>
              
               <div className="mt-3">
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+              {userData.role=="user"&&  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                   Booknow
-                </button>
+                </button>}
+
+                {userData.role=="provider"&& <button onClick={() => {
+                    dispatch(assignEditId(car._id)); // Optional, for Redux
+                  
+                  }}
+                  className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 transition"> Edit</button>}
+                 {userData.role=="provider"&&  <button onClick={()=>{
+                                const userConfirm=window.confirm("Are you sure?")
+                                if(userConfirm){
+                                     dispatch(deleteCars(car._id))
+                 
+                                }
+                               }}
+                                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Delete</button>}
               </div>
             </div>
           </div>

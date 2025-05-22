@@ -50,7 +50,7 @@ export const deleteCars=createAsyncThunk("cars/deleteCars",async(id,{rejectWithV
         console.log(id)
         const response=await axios.delete(`/deleteCar/${id}`,{headers:{Authorization:localStorage.getItem("token")}})
         console.log(response.data)
-        return response.data
+        return response.data.deleteCar
     }catch(error){
         console.log(error)
         return rejectWithValue({
@@ -90,7 +90,7 @@ const carSlice=createSlice({
             state.loading=true
         })
         builder.addCase(createCars.fulfilled,(state,action)=>{
-            state.data.push(action.payload)
+            state.carsData.push(action.payload)
         })
         builder.addCase(updateCars.pending,(state)=>{
             state.loading=true

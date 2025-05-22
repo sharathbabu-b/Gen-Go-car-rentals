@@ -54,7 +54,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-right justify-end px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-100 to-indigo-100 bg-cover bg-center bg-no-repeat" 
+    <div className="min-h-screen  w-full flex items-right justify-end px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-100 to-indigo-100 bg-cover bg-center bg-no-repeat" 
          style={{ 
            backgroundImage: "url('https://i.pinimg.com/736x/b8/46/3d/b8463dce728fb896bba18846e9e04c9e.jpg')",
          }}>

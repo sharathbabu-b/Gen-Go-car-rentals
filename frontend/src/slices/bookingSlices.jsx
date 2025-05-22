@@ -32,7 +32,9 @@ export const deleteBooking=createAsyncThunk("booking/deletedBooking",async(id,{r
     }catch(error){
         console.log(error)
         return rejectWithValue({
-            message:error?.messaage||"deletd failed"
+            message:error?.messaage||"deletd failed",
+            errors:error?.response.data.errors
+
         })
     }
 })

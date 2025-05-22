@@ -5,9 +5,10 @@ import { createCars,updateCars } from "../slices/carslices";
 
 
 export default function Carsform() {
-  const {carsData,carEditId,serverErr}=useSelector((state)=>{
+  const {carsData,carsEditId,serverErr}=useSelector((state)=>{
     return state.cars
   })
+  console.log(carsEditId)
   const dispatch =useDispatch()
   const [carName, setCarName] = useState("");
   const [brand, setBrand] = useState("");
@@ -23,8 +24,8 @@ export default function Carsform() {
   const [gpsTrack, setGpsTrack] = useState(false);
   const [clientErrors,setClientErrors]=useState({})
   useEffect(()=>{
-    if(carEditId){
-      const cars=carsData.find(ele=>ele._id===carEditId)
+    if(carsEditId){
+      const cars=carsData.find(ele=>ele._id===carsEditId)
       setCarName(cars.carName)
       setBrand(cars.brand),
       setModel(cars.model),
@@ -39,7 +40,7 @@ export default function Carsform() {
       setGpsTrack(cars.gpsTrack)
       
     }
-  },[carEditId,carsData])
+  },[carsEditId,carsData])
   const handleSubmit = (e) => {
     e.preventDefault();
     const resetForm=()=>{
@@ -120,8 +121,8 @@ export default function Carsform() {
   if(Object.keys(errors).length>0){
     setClientErrors(errors)
   }else{
-    if(carEditId){
-      const cars=carsData.find(ele=>ele._id===carEditId)
+    if(carsEditId){
+      const cars=carsData.find(ele=>ele._id===carsEditId)
       const carsObj={...cars,carName: carName,
     brand: brand,
     model: model,
@@ -161,7 +162,7 @@ export default function Carsform() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-xl mt-10">
-      <h1 >{carEditId? "EDIT":"ADD"} CAR </h1>
+      <h1 >{carsEditId? "EDIT":"ADD"} CAR </h1>
       {serverErr && <>
       <ul>
         {serverErr.errors.map((ele,i)=>{
