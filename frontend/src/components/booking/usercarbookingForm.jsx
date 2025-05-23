@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useSelector,useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { createBooking } from "../../slices/bookingSlices"
 
 export default function carbookingForm (){
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
     const {id}=useParams()
     const {bookingdata}=useSelector((state)=>{
         return state.booking
@@ -14,6 +17,9 @@ export default function carbookingForm (){
     const {userData}=useSelector((state)=>{
         return state.user
     })
+    useEffect(()=>{
+        dispatch(createBooking(bookingdata))
+    },[dispatch])
 
     const [pickup_location,setPickup_location]=useState("")
     const [car,setCar]=useState(id)
@@ -50,7 +56,7 @@ export default function carbookingForm (){
                  required className="w-full p-2 border rounded" />
                  <imput 
                  type="date" name="endDate" value={end_Date} onChange={(e)=>setEnd_Date(e.target.value)} required className="w-full p-2 border rounded"/>
-                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Now
+                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" navigate>Book Now
 
                  </button>
             </form>

@@ -1,12 +1,12 @@
 import { useSelector,useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {useNavigate} from "react-router-dom"
-import {fetchCars,assignEditId,deleteCars} from "../slices/carslices"
+import {fetchAllCars,assignEditId,deleteCars} from "../slices/carslices"
 export default function CarLists(){
   const navigate=useNavigate()
   const dispatch=useDispatch()
   useEffect(()=>{
-    dispatch(fetchCars())
+    dispatch(fetchAllCars())
   },[dispatch])
   const {userData} =useSelector((state)=>{
     return state.user

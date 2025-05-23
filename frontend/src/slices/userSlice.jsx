@@ -53,6 +53,32 @@ export const removeUser=createAsyncThunk("user/removeUser",async(id,{rejectWithV
         })
     }
 })
+export  const approveUser=createAsyncThunk("user/approveUser",async(id,{rejectWithValue})=>{
+    try{
+        const response=await axios.put(`/approveUser/${id}`,{},{headers:{Authorization:localStorage.getItem("token")}})
+        console.log(response.data)
+        return response.data
+    }catch(error){
+        console.log(error)
+        return rejectWithValue({
+            message:error.message,
+            errors:error.response.data.errors
+        })
+    }
+})
+export const rejectUser=createAsyncThunk("user/rejectUser",async(id,{rejectWithValue})=>{
+    try{
+        const response=await axios.put(`rejectuser/${id}`,{headers:{Authorization:localStorage.getItem("token")}})
+        console.log(response.data)
+        return response.data
+    }catch(error){
+        console.log(error)
+        return rejectWithValue({
+            message:error.message,
+            errors:error.response.data.errors
+        })
+    }
+})
 export const activateUser=createAsyncThunk('user/activateUser',async(id,{rejectWithValue})=>{
     try{
         const response=await axios.put(`/activation/${id}`,{isActive:'true'},{headers:{Authorization:localStorage.getItem('token')}})

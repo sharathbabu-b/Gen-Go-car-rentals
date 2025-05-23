@@ -19,9 +19,9 @@ import UserCarBooking from './components/booking/usercarbooking';
 // import SubscriptionPage from './components/subscription';
 // import TermsAndConditions from "./components/terms &conditions"
 import { logout, fetchUserAccount } from './slices/userSlice';
-import { fetchCars } from './slices/carslices';
+import { fetchAllCars } from './slices/carslices';
 import CarLists from './components/carslists';
-// import Privacy from './components/Privacy'; // ✅ Import Privacy component
+// import Privacy from './components/Privacy'; 
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       dispatch(fetchUserAccount());
-      dispatch(fetchCars());
+      dispatch(fetchAllCars());
     }
   }, [dispatch]);
 

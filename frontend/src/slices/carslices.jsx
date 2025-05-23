@@ -1,7 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../axios/axios";import { act } from "react";
+import axios from "../axios/axios";
 ;
-export const fetchCars=createAsyncThunk("cars/fetchCars",async(_,{rejectWithValue})=>{
+export const fetchAllCars=createAsyncThunk("cars/fetchAllCars",async(_,{rejectWithValue})=>{
     try{
         const response=await axios.get("/getallcars")
         console.log(response.data)
@@ -75,14 +75,14 @@ const carSlice=createSlice({
         }
     },
     extraReducers:(builder)=>{
-        builder.addCase(fetchCars.pending,(state)=>{
+        builder.addCase(fetchAllCars.pending,(state)=>{
             state.loading=true
         })
-        builder.addCase(fetchCars.fulfilled,(state,action)=>{
+        builder.addCase(fetchAllCars.fulfilled,(state,action)=>{
             state.carsData=action.payload
             state.loading=false
         })
-        builder.addCase(fetchCars.rejected,(state,action)=>{
+        builder.addCase(fetchAllCars.rejected,(state,action)=>{
             state.loading=false
             state.serverErr="Something went wrong"
         })
