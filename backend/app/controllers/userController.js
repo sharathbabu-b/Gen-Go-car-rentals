@@ -109,6 +109,64 @@ userCtrl.account=async(req,res)=>{
     }
 
 }
+userCtrl.approveUser=async(req,res)=>{
+     const errors=validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(404).json({errors:errors.array()})
+    }
+    const id=req.params.id
+    try{
+        const user=await User.findByIdAndUpdate(id,{isApproved:true},{new:true})
+        if(!user){
+            return res.status(404).json({message:"User not found"})
+        }
+        res.json({message:"Provider apporved",user})
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json({errors:"something went wrong"})
+    }
+}
+userCtrl.rejectedUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() }); // Use 400 for validation errors
+  }
+
+  const id = req.params.id;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user || user.role !== "provider") {
+      return res.status(404).json({ message: "Provider not found" });
+    }
+
+    user.isApproved = false; // use the `user` variable
+    await user.save();
+
+    res.json({ message: "Provider rejected", user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+userCtrl.userActive=async(req,res)=>{
+    const id=req.params.id
+    try{
+        const user=await User.findById(id)
+        if(!user){
+            return res.status(404).json({message:"User not found"})
+        }
+        user.isActive=!user.isActive
+        await user.save()
+        res.json({message:`User ${user.isActive ? "activated": "deactivated"}`,user})
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message:"somethi  ng went wrong"})
+    }
+}
 // forgot password
 userCtrl.forgotPassword=async(req,res)=>{
     const errors=validationResult(req)

@@ -41,6 +41,9 @@ app.get("/allusers",authenticationUser,userCtrl.allusers)
 app.delete("/removeaccountuser/:id",authenticationUser,checkSchema(idValidationSchema),userCtrl.delete)
 app.put("/updateuseraccount/:id",authenticationUser,checkSchema(idValidationSchema),userCtrl.update)
 app.put("/activation/:id",authenticationUser,authorization,checkSchema(idValidationSchema),userCtrl.UpdateActivation)
+app.put("/approveUser/:id",authenticationUser,authorization(["admin"]),userCtrl.approveUser)
+app.put("/rejectuser/:id",authenticationUser, authorization(["admin"]),userCtrl.rejectedUser)
+
 
 // Car-routes
 app.get("/getallcars",CarCltr.listAllCars)
@@ -48,6 +51,7 @@ app.post("/addCar",authenticationUser,authorization(["admin","provider"]),checkS
 app.get("/car/:id",authenticationUser,authorization(["admin"]),checkSchema(idValidationSchema),CarCltr.getCarByid)
 app.put("/updateCar/:id",authenticationUser,authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.updateCar)
 app.delete("/deleteCar/:id",authenticationUser,authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.deleteCar)
+
 // booking routes
 app.get("/getallbooking",bookingCtrl.getAllBookings)
 app.post("/createBooking",authenticationUser,authorization(["user"]),checkSchema(bookingValidationSchema),bookingCtrl.createBooking)

@@ -13,6 +13,10 @@ const userSchema= new Schema({
     isActive:Boolean,
     resetPasswordToken:String,
     resetPasswordExpires:Date,
+    isApproved:{
+        type:Boolean,
+        default:false
+    },
 },{timestamps:true})
 const User=model("User",userSchema)
 export default User
