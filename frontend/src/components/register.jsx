@@ -3,6 +3,7 @@ import axios from "../axios/axios";
 import { isEmail } from "validator";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from 'react-toastify';
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -47,8 +48,9 @@ export default function Register() {
       const response = await axios.post("/register", formData);
       console.log(response.data);
       navigate("/login");
+      toast.success('Registration successful!');
     } catch (error) {
-      setServerErrors(error.response?.data?.errors || ["Something went wrong"]);
+      toast.error(err.response?.data?.message || 'Registration failed');
       setClientErrors({});
     }
   };

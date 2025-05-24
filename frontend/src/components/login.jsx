@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {login} from "../slices/userSlice"
 import axios from "../axios/axios";
+import { toast } from 'react-toastify'
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -37,10 +38,12 @@ export default function Login() {
                 localStorage.setItem("token",resposne.data.token)
                 const userResponse=await axios.get("/account",{headers:{Authorization:localStorage.getItem("token")}})
                 dispatch(login(userResponse.data))
+                toast.success('Login successful!');
                 navigate("/account")
             }catch(error){
-                setServerErrors(errors.response?.data?.error|| "something went wrong")
+                setServerErrors(errors.response?.data?.error)
                 setClientErrors({})
+                 toast.error('Login failed');
             }
          }
   }

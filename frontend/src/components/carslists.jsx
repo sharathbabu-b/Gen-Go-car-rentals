@@ -37,7 +37,9 @@ export default function CarLists(){
               </p>
              
               <div className="mt-3">
-              {userData.role=="user"&&  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+              {userData.role=="user"&&  <button  onClick={()=>{
+                navigate("/carbookingForm")
+              }}className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                   Booknow
                 </button>}
 

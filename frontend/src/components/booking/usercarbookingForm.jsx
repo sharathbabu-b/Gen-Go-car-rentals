@@ -56,7 +56,7 @@ export default function carbookingForm (){
                  required className="w-full p-2 border rounded" />
                  <imput 
                  type="date" name="endDate" value={end_Date} onChange={(e)=>setEnd_Date(e.target.value)} required className="w-full p-2 border rounded"/>
-                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" navigate>Book Now
+                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"  >Book Now
 
                  </button>
             </form>
