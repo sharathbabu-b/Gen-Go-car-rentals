@@ -43,10 +43,10 @@ const bookingSlice=createSlice({
     initialState:{
         bookingData:[],
         loading:false,
-        currentBooking:null,
-        sucess:false,
+        success:false,
         serverErr:null,
     },
     reducers:{}
+
 })
 export default bookingSlice.reducer

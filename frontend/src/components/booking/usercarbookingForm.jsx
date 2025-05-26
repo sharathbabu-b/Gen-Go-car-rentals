@@ -28,6 +28,7 @@ export default function carbookingForm (){
     const [end_Date,setEnd_Date]=useState("")
     const handleSubmit=async(e)=>{
         e.preventDefault()
+        
     }
     return(
         <div>
@@ -50,14 +51,15 @@ export default function carbookingForm (){
                 required
                 className="w-full p-2 border rounded"
                 />
-                <input type="text" name="dropoff_location" placeholder="Dropoff Location" onChange={(e)=>setDropoff_location(e.target.value)} required className="w-full p-2 border rounded"/>
+                <input type="text" name="dropoff_location" value={dropoff_loaction} placeholder="Dropoff Location" onChange={(e)=>setDropoff_location(e.target.value)} required className="w-full p-2 border rounded"/>
                  <input 
                  type="date" name="startDate" value={start_Date} onChange={(e)=>setStart_date(e.target.value)} 
                  required className="w-full p-2 border rounded" />
                  <imput 
                  type="date" name="endDate" value={end_Date} onChange={(e)=>setEnd_Date(e.target.value)} required className="w-full p-2 border rounded"/>
-                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"  >Book Now
-
+                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={()=>{
+                    navigate("/carbooking")
+                 }}  >Book Now
                  </button>
             </form>
         </div>

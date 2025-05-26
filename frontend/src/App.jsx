@@ -3,7 +3,7 @@ import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import About from './components/about';
-import Home from './components/Home'
+import Home from './pages/Home'
 import Register from './components/register';
 import Login from './components/login';
 import Account from './components/account';
