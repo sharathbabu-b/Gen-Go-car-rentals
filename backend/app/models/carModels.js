@@ -14,7 +14,7 @@ const CarSchema=new Schema({
     },
     fuel_type:{
         type:String,
-        enum:["petrol","diesel","electric"]
+        enum:["petrol","diesel","ev"]
     },
     transmission:{
         type:String,
