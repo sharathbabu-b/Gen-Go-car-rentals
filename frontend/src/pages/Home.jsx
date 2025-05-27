@@ -15,6 +15,9 @@ export default function Home() {
 
   const [filteredCars, setFilteredCars] = useState([]);
 
+  // Example city options
+  const cities = ["Bengaluru", "Delhi", "Mumbai", "Hyderabad", "Chennai", "Kolkata", "Pune"];
+
   useEffect(() => {
     dispatch(fetchAllCars());
   }, [dispatch]);
@@ -51,14 +54,15 @@ export default function Home() {
   if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
   return (
-    
     <div className="container mx-auto px-4 py-6">
-      {/* Search/Filter Form */}
-      <GenGoBanner/>
-     
+      <GenGoBanner />
 
       <h1 className="text-3xl font-bold mb-6 text-center">Explore Cars</h1>
 
+      {/* Filter Section */}
+     
+
+      {/* Car Listings */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {(filteredCars.length > 0 ? filteredCars : carsData).map((car) => (
           <div key={car._id} className="bg-white p-4 shadow-md rounded-xl">
@@ -69,7 +73,7 @@ export default function Home() {
             />
             <h2 className="text-xl font-semibold mt-2">{car.name}</h2>
             <p className="text-gray-600">₹{car.pricePerDay}/day</p>
-            {/* You can include car location here if needed */}
+            <p className="text-sm text-gray-500">{car.pickup_location}</p>
           </div>
         ))}
       </div>

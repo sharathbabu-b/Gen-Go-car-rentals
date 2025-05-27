@@ -1,12 +1,25 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import carBanner from "../assets/car image.svg"; // Adjust this path to your uploaded image
+import carBanner from "../assets/car image.svg"; // Ensure this path is correct
 
- export default function GenGoBanner() {
+export default function GenGoBanner() {
+  const [pickupCity, setPickupCity] = useState("");
+  
+  const cities = [
+    "Bengaluru",
+    "Delhi",
+    "Mumbai",
+    "Hyderabad",
+    "Chennai",
+    "Kolkata",
+    "Pune"
+  ];
+
   return (
     <div className="bg-yellow-400 text-black py-10 px-6 rounded-b-2xl shadow-xl overflow-hidden">
       <div className="container mx-auto flex flex-col-reverse lg:flex-row justify-between items-center gap-10">
         
-        {/* LEFT: Text + Form */}
+        {/* LEFT: Banner Text + Form */}
         <motion.div
           initial={{ opacity: 0, x: -80 }}
           animate={{ opacity: 1, x: 0 }}
@@ -32,11 +45,20 @@ import carBanner from "../assets/car image.svg"; // Adjust this path to your upl
           </p>
 
           <form className="space-y-3 bg-white text-black p-4 rounded-xl shadow-lg">
-            <input
-              type="text"
-              placeholder="Enter your pickup location"
+            {/* Select City Dropdown */}
+            <select
               className="w-full border border-gray-300 p-2 rounded"
-            />
+              value={pickupCity}
+              onChange={(e) => setPickupCity(e.target.value)}
+            >
+              <option value="">Select your pickup city</option>
+              {cities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+
             <div className="flex gap-3">
               <input
                 type="datetime-local"
@@ -47,10 +69,12 @@ import carBanner from "../assets/car image.svg"; // Adjust this path to your upl
                 className="w-1/2 border border-gray-300 p-2 rounded"
               />
             </div>
+
             <div className="flex items-center">
               <input type="checkbox" className="mr-2" />
               <label className="text-sm">Delivery & Pickup from anywhere</label>
             </div>
+
             <button
               type="submit"
               className="w-full bg-green-700 text-white font-bold py-2 rounded hover:bg-green-800 transition"
@@ -67,11 +91,9 @@ import carBanner from "../assets/car image.svg"; // Adjust this path to your upl
           transition={{ duration: 0.8 }}
           className="w-full lg:w-1/2"
         >
-         
+          <img src="/car-image.svg" alt="Car Banner" className="w-full max-w-md mx-auto" />
         </motion.div>
       </div>
     </div>
   );
 }
-
-
