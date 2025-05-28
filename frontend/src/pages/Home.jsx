@@ -59,8 +59,7 @@ export default function Home() {
 
       <h1 className="text-3xl font-bold mb-6 text-center">Explore Cars</h1>
 
-      {/* Filter Section */}
-     
+    
 
       {/* Car Listings */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
