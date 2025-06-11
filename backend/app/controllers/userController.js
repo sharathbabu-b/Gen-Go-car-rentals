@@ -62,10 +62,12 @@ userCtrl.update=async(req,res)=>{
         return res.status(404).json({errors:errors.array()})
     }
     const id=req.params.id
-    const {name,email,password}=req.body
+    const {name,email,password }=req.body
     try{
+         
+         const profilePic = req.file ? `/uploads/${req.file.filename}` : null
         if(id==req.userId){
-            const user=await User.findByIdAndUpdate(id,{name,email,password},{new:true})
+            const user=await User.findByIdAndUpdate(id,{name,email,password,profilePic},{new:true})
             return res.status(201).json(user)
         }
         res.json({error:'cannot update this account user is invalid'})
@@ -100,12 +102,14 @@ userCtrl.delete=async(res,req)=>{
 
 }
 userCtrl.account=async(req,res)=>{
+    const userId = req.userId;
     try{
-        const user=await User.findById(req.userId)
+
+        const user=await User.findById(userId)
         res.json(user)
     }catch(err){
         console.log(err)
-        res.status(500).json({error:'something went wrong'})
+        res.status(500).json({error:'Failed to update user'})
     }
 
 }

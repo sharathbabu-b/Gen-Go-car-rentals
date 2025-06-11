@@ -17,7 +17,7 @@ export default function CarLists(){
   console.log(carsData)
   return(
        <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-2xl font-bold mb-4">Available Cars</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center ">Available Cars</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {carsData.map((car) => (
           <div key={car._id} className="bg-white shadow-md rounded-2xl overflow-hidden">
@@ -37,17 +37,17 @@ export default function CarLists(){
               </p>
              
               <div className="mt-3">
-              {userData.role=="user"&&  <button  onClick={()=>{
-                navigate("/carbookingForm")
+              {userData?.role=="user"&&  <button  onClick={()=>{
+                navigate(`/carbooking/${car._id}`)
               }}className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                   Booknow
                 </button>}
 
-                {userData.role=="provider"&& <button onClick={() => {
+                {userData?.role=="provider"&& <button onClick={() => {
                     dispatch(assignEditId(car._id)); // Optional, for Redux
                   
                   }}
-                  className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 transition"> Edit</button>}
+                  className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 transition mr-3"> Edit</button>}
                  {userData.role=="provider"&&  <button onClick={()=>{
                                 const userConfirm=window.confirm("Are you sure?")
                                 if(userConfirm){
@@ -55,7 +55,7 @@ export default function CarLists(){
                  
                                 }
                                }}
-                                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Delete</button>}
+                                className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Delete</button>}
               </div>
             </div>
           </div>

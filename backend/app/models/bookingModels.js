@@ -6,7 +6,7 @@ const bookingSchema=new Schema({
       },
       carId: {
         type: Schema.Types.ObjectId,
-        ref: 'Car',
+        ref: 'Cars',
       },
       pickup_Location: String,
       dropoff_Location: String,

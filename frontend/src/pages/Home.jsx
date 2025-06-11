@@ -1,9 +1,11 @@
 import GenGoBanner from "../pages/homeBanner"
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; 
+import { useNavigate } from "react-router-dom";
 import { fetchAllCars } from "../slices/carslices";
 
 export default function Home() {
+  const navigate=useNavigate()
   const [pickup_location, setPickup_location] = useState("");
   const [dropoff_location, setDropoff_location] = useState("");
   const [start_Date, setStart_date] = useState("");
@@ -15,8 +17,8 @@ export default function Home() {
 
   const [filteredCars, setFilteredCars] = useState([]);
 
-  // Example city options
-  const cities = ["Bengaluru", "Delhi", "Mumbai", "Hyderabad", "Chennai", "Kolkata", "Pune"];
+
+  const cities = ["Bengaluru","Hyderabad", "Mumbai","Chennai"];
 
   useEffect(() => {
     dispatch(fetchAllCars());
@@ -57,22 +59,25 @@ export default function Home() {
     <div className="container mx-auto px-4 py-6">
       <GenGoBanner />
 
-      <h1 className="text-3xl font-bold mb-6 text-center">Explore Cars</h1>
+      <h1 className="text-3xl font-bold m-6 text-center">Explore Cars</h1>
 
     
 
-      {/* Car Listings */}
+    
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {(filteredCars.length > 0 ? filteredCars : carsData).map((car) => (
-          <div key={car._id} className="bg-white p-4 shadow-md rounded-xl">
+        { carsData?.map((car) => (
+          <div key={car._id} className="bg-white p-4 shadow-md rounded-xl"
+           onClick={() => navigate("/login")}>
             <img
-              src={car.imageUrls?.[0]}
-              alt={car.name}
+              src={car?.images}
+              alt={car.carName}
               className="w-full h-40 object-cover rounded"
             />
-            <h2 className="text-xl font-semibold mt-2">{car.name}</h2>
-            <p className="text-gray-600">₹{car.pricePerDay}/day</p>
-            <p className="text-sm text-gray-500">{car.pickup_location}</p>
+            <h2 className="text-xl font-semibold text-blue-500 mt-2">{car.carName}</h2>
+            <p className="text-gray-600">₹{car.price_Per_Day}/day</p>
+             <p className="text-gray-600">₹{car.price_Per_hour}/hour</p>
+            
+            {/* <p className="text-sm text-gray-500">{car.pickup_location}</p> */}
           </div>
         ))}
       </div>

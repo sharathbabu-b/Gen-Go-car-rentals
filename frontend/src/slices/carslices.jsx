@@ -50,7 +50,7 @@ export const deleteCars=createAsyncThunk("cars/deleteCars",async(id,{rejectWithV
         console.log(id)
         const response=await axios.delete(`/deleteCar/${id}`,{headers:{Authorization:localStorage.getItem("token")}})
         console.log(response.data)
-        return response.data.deleteCar
+        return response.data
     }catch(error){
         console.log(error)
         return rejectWithValue({
@@ -60,6 +60,33 @@ export const deleteCars=createAsyncThunk("cars/deleteCars",async(id,{rejectWithV
         })
     }
 })
+export const ApproveCar=createAsyncThunk("cars/ApproveCar",async(id,{rejectWithValue})=>{
+    try{
+        const response=await axios.put(`/approveCar/${id}`,{isApproved:"true"},{headers:{Authorization:localStorage.getItem("token")}})
+        console.log(response.data)
+        return response.data
+    }catch(error){
+        console.log(error)
+        return rejectWithValue({
+            message:error.message,
+            errors:error.response.data.errors
+        })
+    }
+})
+export const rejectCar=createAsyncThunk("cars/rejectCar",async(id,{rejectWithValue})=>{
+    console.log(id)
+  try{
+    const response =await axios.put(`/approveCar/${id}`,{isApproved:"false"},{headers:{Authorization:localStorage.getItem("token")}})
+    console.log(response.data)
+    return response.data
+  }catch(err){
+    console.log(err)
+    return  rejectWithValue({
+      message:err.message,
+      errors:err.response.data.errors
+    })
+  }
+}) 
 const carSlice=createSlice({
     name:"cars",
     initialState:{
@@ -92,6 +119,10 @@ const carSlice=createSlice({
         builder.addCase(createCars.fulfilled,(state,action)=>{
             state.carsData.push(action.payload)
         })
+        builder.addCase(createCars.rejected,(state,action)=>{
+            state.loading=false
+            state.serverErr="Something went wrong"
+        })
         builder.addCase(updateCars.pending,(state)=>{
             state.loading=true
             state.serverErr = null;
@@ -118,9 +149,26 @@ const carSlice=createSlice({
             state.serverErr = null;
             state.serverErr = action.payload
         })
-
-
-    
+         builder.addCase(ApproveCar.fulfilled,(state,action)=>{
+              const index=state.carsData.findIndex((ele)=>ele._id===action.payload._id)
+              state.carsData[index]=action.payload
+              state.serverErr=null
+              // state.editId=null
+              state.loading=false
+         })
+         builder.addCase(ApproveCar.rejected,(state,action)=>{
+            state.serverErr=action.payload
+         })
+          builder.addCase(rejectCar.fulfilled,(state,action)=>{
+             const index=state.carsData.findIndex((ele)=>ele._id===action.payload._id)
+             state.carsData[index]=action.payload
+             state.serverErr=null
+             // state.editId=null
+             state.loading=false
+         })
+         builder.addCase(rejectCar.rejected,(state,action)=>{
+               state.serverErr=action.payload
+         })
     }
 })
 export const {assignEditId}=carSlice.actions

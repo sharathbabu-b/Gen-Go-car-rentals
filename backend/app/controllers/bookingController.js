@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 import Booking from "../models/bookingModels.js"
+import Cars from "../models/carModels.js";
 const bookingCtrl={}
 bookingCtrl.createBooking = async (req, res) => {
     const errors=validationResult(req)
@@ -16,26 +17,49 @@ bookingCtrl.createBooking = async (req, res) => {
       res.status(400).json({ message: 'Booking creation failed', error });
     }
   };
+  
+bookingCtrl.getAllBookings = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-bookingCtrl.getAllBookings=async (req,res)=>{
-    const errors=validationResult(req)
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()})
+  try {
+    const bookings = await Booking.find()
+      .populate("userId", "name email")
+      .populate("carId", "carName model brand");
+
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).json({ message: "Booking not found" });
     }
-    const id=req.params.id
-    try{
-        const booking=await Booking.find()
-        .populate("userId","name email")
-        .populate("carId","model brand")
-        if(!booking){
-            return res.status(404).json({message:"Booking not found"})
-        }
-        res.status(200).json(booking)
-    }catch(err){
-        console.log(err)
-        res.status(500).json({errors:"something went wrong"})
-    }  
-}
+
+    res.status(200).json(bookings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errors: "Something went wrong" });
+  }
+};
+// bookingCtrl.getAllBookings = async (req, res) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   try {
+//     const booking = await Booking.find()
+//       .populate("userId", "name email")
+//       .populate("carId", "carName,model,brand");
+
+//     if (!booking) {
+//       return res.status(404).json({ message: "Booking not found" });
+//     }
+
+//     res.status(200).json(booking);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ errors: "something went wrong" });
+//   }
+// };
 bookingCtrl.getbookingById=async(req,res)=>{
     const errors=validationResult(req)
     if(!errors.isEmpty()){

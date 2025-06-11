@@ -1,9 +1,11 @@
-import carbookingForm from "./usercarbookingForm";
-export default function userCarBooking(){
+import BookingList from "./bookinglist";
+
+export default function UserBooking(){
     return (
         <div>
-            <carbookingForm/>
+            <BookingList/>
+            {/* <CarBookingForm/> */}
+            
         </div>
     )
-
 }

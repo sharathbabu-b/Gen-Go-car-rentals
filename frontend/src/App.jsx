@@ -11,13 +11,18 @@ import PrivateRoute from './components/privateRoute';
 import ProtectedRoute from './components/protectedRoute';
 import Unauthorized from './components/unauathorized';
 import ForgotPassword from './components/forgotpassword';
-import ResetPassword from './components/restpassword';
+import ResetPassword from './components/resetpassword';
 import UserList from './components/userList';
 import AdminDashboard from './pages/adminDashboard';
-import UserCarBooking from './components/booking/usercarbooking';
+import ApproveCars from './components/apporvecars';
+import CarBookingForm from './components/booking/carbookingForm';
+import UserBooking from './components/booking/usercarbooking';
 import { logout, fetchUserAccount } from './slices/userSlice';
 import { fetchAllCars } from './slices/carslices';
 import CarLists from './components/carslists';
+import  ContactUs from "./pages/contact"
+import Carsform from './components/carsform';
+import Payment from './components/payments';
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
@@ -38,15 +43,15 @@ function App() {
       dispatch(fetchUserAccount());
       dispatch(fetchAllCars());
     }
-  }, [dispatch]);
+  }, [localStorage.getItem('token'),dispatch]);
 
   return (
-  <div className={darkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen over-flow:fixed' }>
+ <div className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'} min-h-screen flex flex-col`}>
     {/* Navbar */}
     <nav className="fixed top-0 left-0 w-full z-50 bg-gray-800 text-white shadow-md flex items-center justify-between p-4">
 
       <div className="flex items-center space-x-4">
-        <span className="text-2xl font-bold text-yellow-400">G</span>
+        <span className="text-2xl font-bold text-red-400">G</span>
         <h1 className="text-xl font-semibold">GEN-GO CAR RENTALS</h1>
       </div>
 
@@ -67,12 +72,19 @@ function App() {
             )}
             {userData?.role === 'admin' && (
               <>
+
                 <Link className="hover:underline" to="/userlist">Users</Link>
+                <Link className='hover:underline' to="/approve-cars">ApproveCars</Link>
                 <Link className="hover:underline" to="/admindashboard">Dashboard</Link>
+                
               </>
             )}
+             <Link  className="hover:underline" to="/userBookingList">BookingList</Link>
             {userData?.role === 'user' && (
+              <>
               <Link className="hover:underline" to="/carlist">Cars</Link>
+             
+              </>
             )}
             <button
               onClick={() => {
@@ -87,15 +99,15 @@ function App() {
           </>
         ) : (
           <>
-            <Link className="hover:underline" to="/register">Register</Link>
-            <Link className="hover:underline" to="/login">Login</Link>
+            <Link className=" px-3 py-1 rounded"to="/register">Register</Link>
+            <Link className="" to="/login">Login</Link>
           </>
         )}
       </div>
     </nav>
 
     {/* Main Content */}
-    <main className="pt-20 p-6">
+    <main className="flex-grow pt-20 p-6">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
@@ -103,9 +115,12 @@ function App() {
         <Route path="/userlist" element={<UserList />} />
         <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
-        <Route path="/carbooking" element={<UserCarBooking />} />
+        <Route path="/approve-cars" element={<ApproveCars />} />
+        <Route path="/userBookingList" element={<UserBooking/>}/>
+        <Route path="/carbooking/:id" element={<CarBookingForm />} />
         <Route path="/about" element={<About />} />
         <Route path="/carlist" element={<CarLists />} />
+         <Route path="/carform" element={<Carsform />} />
         <Route path="/cars" element={
           <PrivateRoute>
             <ProtectedRoute roles={['provider', 'user']}>
@@ -114,20 +129,22 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path='/payments'element={<Payment/>}/>
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </main>
 
-    {/* Footer */}
-    <footer className="bg-gray-800 text-white p-4 text-center mt-10">
-      <p className="mb-2">© 2025 GEN-GO Car Rentals. All rights reserved.</p>
-      <div className="flex justify-center gap-4">
-        <Link to="/about" className="hover:underline">About</Link>
-        <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
-        <a href="mailto:support@gengo.com" className="hover:underline">Contact</a>
-      </div>
-    </footer>
+   <footer className="backdrop-blur-md bg-white/10 border-t border-white/30 text-blue py-6 px-8">
+  <p className="mb-2">© 2025 GEN-GO Car Rentals. All rights reserved.</p>
+  <div className="flex justify-center gap-4">
+    <Link to="/about" className="hover:underline">AboutUs</Link>
+    <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
+    <Link to="/contact" className="hover:underline">Contact Us</Link> 
+  </div>
+</footer>
+
   </div>
 );
 }

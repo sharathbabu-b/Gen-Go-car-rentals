@@ -13,9 +13,9 @@ export const fetchbookingUser=createAsyncThunk("booking/fetchbookingUser",async(
         })
     }
 })
-export const createBooking=createAsyncThunk("booking/createBooking",async(bookingData,{rejectWithValue})=>{
+export const createBooking=createAsyncThunk("/createBooking",async(bookingData,{rejectWithValue})=>{
     try{
-        const response=await axios.post("/createBooking",bookingData)
+        const response=await axios.post("/createBooking",bookingData,{headers:{Authorization:localStorage.getItem("token")}})
         console.log(response.data)
         return response.data
     }catch(error){
@@ -43,10 +43,41 @@ const bookingSlice=createSlice({
     initialState:{
         bookingData:[],
         loading:false,
-        success:false,
         serverErr:null,
+        bookingsEditId:null
     },
-    reducers:{}
+    reducers:{
+        carbookingeditId:(state,action)=>{
+            state.bookingsEditId=action.payload
+        }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(fetchbookingUser.pending,(state)=>{
+            state.loading=true
+        })
+        builder.addCase(fetchbookingUser.fulfilled,(state,action)=>{
+            state.bookingData=action.payload
+            state.loading=false
+        })
+        builder.addCase(fetchbookingUser.rejected,(state,action)=>{
+            state.loading=false
+             state.serverErr="Something went wrong"
+        })
+        builder.addCase(createBooking.pending,(state)=>{
+            state.loading=true
+        })
+        builder.addCase(createBooking.fulfilled,(state,action)=>{
+            state.bookingData.push(action.payload)
+        })
+        builder.addCase(createBooking.rejected,(state,action)=>{
+            state.loading=false
+            state.serverErr="something went wrong "
+        })
+        
+
+    }
+
 
 })
+export const {carbookingeditId} =bookingSlice.actions
 export default bookingSlice.reducer

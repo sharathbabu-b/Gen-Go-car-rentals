@@ -58,6 +58,7 @@ export default function Register() {
   return (
  <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 flex items-center justify-center px-4 py-8">
   <div className="w-full max-w-xl bg-white shadow-2xl rounded-lg px-10 py-12">
+   
     <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-8">Create Your Account</h2>
 
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -68,7 +69,7 @@ export default function Register() {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="John Doe"
+          placeholder="Enter your name"
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         />
         {clientErrors.name && <p className="text-red-500 text-sm mt-1">{clientErrors.name}</p>}
@@ -81,7 +82,7 @@ export default function Register() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
+          placeholder="enter your email"
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         />
         {clientErrors.email && <p className="text-red-500 text-sm mt-1">{clientErrors.email}</p>}
@@ -95,7 +96,7 @@ export default function Register() {
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="********"
+            placeholder="Password"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-10"
           />
           <span

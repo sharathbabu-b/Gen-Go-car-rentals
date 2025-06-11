@@ -2,29 +2,63 @@ import Cars from "../models/carModels.js"
 import {validationResult} from "express-validator"
 import { forwardGeocode } from "../../utils/geoapify.js"
 const CarCltr={}
-CarCltr.create=async(req,res)=>{
-    const errors=validationResult(req)
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()})
-    }
-    const body=req.body
-    try{
-          const geoData = await forwardGeocode(body.address);
+// CarCltr.create=async(req,res)=>{
+//     const errors=validationResult(req)
+//     if(!errors.isEmpty()){
+//         return res.status(400).json({errors:errors.array()})
+//     }
+//     const body=req.body
+//     console.log(body)
+//     try{
+//           const geoData = await forwardGeocode(body.address);
+//           const feature = geoData.features[0];
+//       console.log(feature)
+//     if (!feature) {
+//       return res.status(400).json({ errors: 'Invalid address provided' });
+//     }
+
+//     const { lat, lon } = feature.properties;
+//         const car=await Cars.create(body)
+//         res.status(201).json(car)
+//     }catch(err){
+//         console.log(err)
+//         res.status(500).json({errors:"something went wrong"})
+
+//     }
+// }
+CarCltr.create = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const body = req.body;
+
+  try {
+    const geoData = await forwardGeocode(body.location); // ← Use the address string
     const feature = geoData.features[0];
 
     if (!feature) {
       return res.status(400).json({ errors: 'Invalid address provided' });
     }
 
-    const { lat, lon } = feature.properties;
-        const car=await Cars.create(body)
-        res.status(201).json(car)
-    }catch(err){
-        console.log(err)
-        res.status(500).json({errors:"something went wrong"})
+    const [lon, lat] = feature.geometry.coordinates; // longitude, latitude
 
-    }
-}
+    const car = await Cars.create({
+      ...body,
+      location: {
+        type: "Point",
+        coordinates: [lon, lat],
+      },
+    });
+
+    res.status(201).json(car);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errors: "Something went wrong" });
+  }
+};
+
 CarCltr.listAllCars=async(req,res)=>{
   try{
     const cars=await Cars.find()
@@ -117,6 +151,21 @@ CarCltr.findNearbyCars = async (req, res) => {
     res.status(500).json({ errors: 'Failed to find nearby cars' });
   }
 };
+CarCltr.isApproved=async(req,res)=>{
+    const id =req.params.id
+    const {isApproved}=req.body
+    console.log(isApproved)
+    try{
+        const ApproveCar=await Cars.findByIdAndUpdate(id,{isApproved},{new:true})
+        if(!ApproveCar){
+            res.status(404).json({error:"product is not approved"})
+        }
+        res.json(ApproveCar)
+    }catch(err){
+        console.log(err)
+        res.status(500).json({errors:"something went wrong"})
+    }
+ }
 
 
 

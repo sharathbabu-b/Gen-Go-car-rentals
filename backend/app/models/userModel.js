@@ -10,6 +10,9 @@ const userSchema= new Schema({
         enum:["admin","user","provider"],
         default:"user"
     },
+    profilePic:{
+        type:String
+    },
     isActive:Boolean,
     resetPasswordToken:String,
     resetPasswordExpires:Date,

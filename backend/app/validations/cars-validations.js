@@ -34,7 +34,7 @@ export const CarSchemaValidation = {
   fuel_type: {
     in: ["body"],
     isIn: {
-      options: [["petrol", "diesel", "EV"]],
+      options: [["petrol", "diesel", "ev"]],
       errorMessage: "Fuel type must be one of petrol, diesel, or EV",
     },
   },

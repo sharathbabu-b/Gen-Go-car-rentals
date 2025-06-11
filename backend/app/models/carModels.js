@@ -14,7 +14,7 @@ const CarSchema=new Schema({
     },
     fuel_type:{
         type:String,
-        enum:["petrol","diesel","ev"]
+        // enum:["petrol","diesel","ev"]
     },
     transmission:{
         type:String,
@@ -51,6 +51,10 @@ const CarSchema=new Schema({
         type: Boolean,
         default: true,
     }, 
+    isApproved:{
+        type:Boolean,
+        default:false
+    },
 },{timestamps:true})
 CarSchema.index({location:"2dsphere"})
 const Cars=model("Cars",CarSchema)

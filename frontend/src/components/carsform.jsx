@@ -1,15 +1,11 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import {useDispatch,useSelector} from "react-redux"
-import { createCars,updateCars } from "../slices/carslices";
-
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createCars, updateCars } from "../slices/carslices";
 
 export default function Carsform() {
-  const {carsData,carsEditId,serverErr}=useSelector((state)=>{
-    return state.cars
-  })
-  console.log(carsEditId)
-  const dispatch =useDispatch()
+  const { carsData, carsEditId, serverErr } = useSelector((state) => state.cars);
+  const dispatch = useDispatch();
+
   const [carName, setCarName] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -22,246 +18,192 @@ export default function Carsform() {
   const [location, setLocation] = useState("");
   const [images, setImages] = useState("");
   const [gpsTrack, setGpsTrack] = useState(false);
-  const [clientErrors,setClientErrors]=useState({})
-  useEffect(()=>{
-    if(carsEditId){
-      const cars=carsData.find(ele=>ele._id===carsEditId)
-      setCarName(cars.carName)
-      setBrand(cars.brand),
-      setModel(cars.model),
-      setYear(cars.year),
-      setFuelType(cars.fuel_type)
-      setTransmission(cars.transmission),
-      setSeats(cars.seats),
-      setPricePerDay(cars.price_Per_Day)
-      setPricePerHour(cars.price_Per_Hour)
-      setLocation(cars.location)
-      setImages(cars.images)
-      setGpsTrack(cars.gpsTrack)
-      
+  const [clientErrors, setClientErrors] = useState({});
+
+  useEffect(() => {
+    if (carsEditId) {
+      const car = carsData.find((ele) => ele._id === carsEditId);
+      if (car) {
+        setCarName(car.carName);
+        setBrand(car.brand);
+        setModel(car.model);
+        setYear(car.year);
+        setFuelType(car.fuel_type);
+        setTransmission(car.transmission);
+        setSeats(car.seats);
+        setPricePerHour(car.price_Per_Hour);
+        setPricePerDay(car.price_Per_Day);
+        setLocation(car.location);
+        setImages(car.images);
+        setGpsTrack(car.gpsTrack);
+      }
     }
-  },[carsEditId,carsData])
+  }, [carsEditId, carsData]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const resetForm=()=>{
-      setCarName(""),
-      setBrand(""),
-      setModel(""),
-      setYear(""),
-      setTransmission(""),
-      setSeats(""),
-      setPricePerDay("")
-      setPricePerHour("")
-      setLocation("")
-      setImages("")
-      setGpsTrack("")
-      setFuelType("")
-    }
-    const errors={}
     const currentYear = new Date().getFullYear();
+    const errors = {};
+    const resetForm = () => {
+      setCarName("");
+      setBrand("");
+      setModel("");
+      setYear("");
+      setTransmission("");
+      setSeats("");
+      setPricePerDay("");
+      setPricePerHour("");
+      setLocation("");
+      setImages("");
+      setGpsTrack(false);
+      setFuelType("");
+    };
 
-    if(carName.trim().length===0){
-      errors.carName="Car Name field is required"
-    }
-    if (brand.trim().length === 0) {
-    errors.brand = "Brand is required";
-  }
-
-  if (model.trim().length === 0) {
-    errors.model = "Model is required";
-  }
-
-  if (year.trim().length === 0) {
-    errors.year = "Year is required";
-  } else if (!/^\d{4}$/.test(year)) {
-    errors.year = "Year must be a 4-digit number";
-  } else if (parseInt(year, 10) < 1900 || parseInt(year, 10) > currentYear) {
-    errors.year = `Year must be between 1900 and ${currentYear}`;
-  }
-
-  if (fuel_type.trim().length === 0) {
-    errors.fuel_type = "Fuel type is required";
-  }
-
-  if (transmission.trim().length === 0) {
-    errors.transmission = "Transmission is required";
-  }
-
-  if (seats.trim().length === 0) {
-    errors.seats = "Number of seats is required";
-  } else if (isNaN(seats) || parseInt(seats, 10) <= 0) {
-    errors.seats = "Seats must be a positive number";
-  }
-
-  if (price_Per_Hour.trim().length === 0) {
-    errors.price_Per_Hour = "Price per hour is required";
-  } else if (isNaN(price_Per_Hour) || parseFloat(price_Per_Hour) <= 0) {
-    errors.price_Per_Hour = "Price per hour must be a positive number";
-  }
-
-  if (price_Per_Day.trim().length === 0) {
-    errors.price_Per_Day = "Price per day is required";
-  } else if (isNaN(price_Per_Day) || parseFloat(price_Per_Day) <= 0) {
-    errors.price_Per_Day = "Price per day must be a positive number";
-  }
-
-  if (location.trim().length === 0) {
-    errors.location = "Location is required";
-  }
-
-  if (images.trim().length === 0) {
-    errors.images = "Image URL is required";
-  } else {
+    // Validation
+    if (!carName.trim()) errors.carName = "Car Name is required";
+    if (!brand.trim()) errors.brand = "Brand is required";
+    if (!model.trim()) errors.model = "Model is required";
+    if (!/^\d{4}$/.test(year)) errors.year = "Year must be a valid 4-digit year";
+    else if (parseInt(year) < 1900 || parseInt(year) > currentYear)
+      errors.year = `Year must be between 1900 and ${currentYear}`;
+    if (!fuel_type) errors.fuel_type = "Fuel type is required";
+    if (!transmission) errors.transmission = "Transmission is required";
+    if (!seats || seats <= 0) errors.seats = "Seats must be a positive number";
+    if (!price_Per_Hour || price_Per_Hour <= 0)
+      errors.price_Per_Hour = "Price per hour must be positive";
+    if (!price_Per_Day || price_Per_Day <= 0)
+      errors.price_Per_Day = "Price per day must be positive";
+    if (!location.trim()) errors.location = "Location is required";
     try {
       new URL(images);
-    } catch (_) {
-      errors.images = "Image URL must be a valid URL";
+    } catch {
+      errors.images = "Image must be a valid URL";
     }
-  }
-  if(Object.keys(errors).length>0){
-    setClientErrors(errors)
-  }else{
-    if(carsEditId){
-      const cars=carsData.find(ele=>ele._id===carsEditId)
-      const carsObj={...cars,carName: carName,
-    brand: brand,
-    model: model,
-    year: year,
-    fuel_type:fuel_type,
-    transmission: transmission,
-    seats: seats,
-    price_Per_Hour: price_Per_Hour,
-    price_Per_Day: price_Per_Day,
-    location: location,
-    images: images,
-    gpsTrack:gpsTrack}
-    dispatch(updateCars({carsObj,resetForm}))
-    }else{
-       const formData = {
+
+    if (Object.keys(errors).length > 0) {
+      setClientErrors(errors);
+      return;
+    }
+
+    const carData = {
       carName,
       brand,
       model,
       year,
       fuel_type,
       transmission,
-      seats ,
+      seats,
       price_Per_Hour,
       price_Per_Day,
       location,
       images,
       gpsTrack,
-    }
-    dispatch(createCars({formData,resetForm}))
-    setClientErrors({})
+    };
 
+    if (carsEditId) {
+      const existingCar = carsData.find((c) => c._id === carsEditId);
+      const carsObj = { ...existingCar, ...carData };
+      dispatch(updateCars({ carsObj, resetForm }));
+    } else {
+      dispatch(createCars({ formData: carData, resetForm }));
     }
-  }
-    
-  }
 
+    setClientErrors({});
+  };
+
+  const inputClass = "w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400";
+  const errorClass = "text-sm text-red-500 mt-1";
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-xl mt-10">
-      <h1 >{carsEditId? "EDIT":"ADD"} CAR </h1>
-      {serverErr && <>
-      <ul>
-        {serverErr.errors.map((ele,i)=>{
-          return <li key={i}>{error.msg}</li>
-        })}
-      </ul>
-      </>}
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-        <input
-          className="border p-2 rounded-md"
-          placeholder="Car Name"
-          value={carName}
-          onChange={(e) => setCarName(e.target.value)}
-        /> {clientErrors&&<p style={{color:'red'}}>{clientErrors.carName}</p>}
-                    
-        <input
-          className="border p-2 rounded-md"
-          placeholder="Brand"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.brand}</p>}
-        <input
-          className="border p-2 rounded-md"
-          placeholder="Model"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.model}</p>}
-        <input
-          className="border p-2 rounded-md"
-          type="number"
-          placeholder="Year"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.year}</p>}
-        <select
-          className="border p-2 rounded-md"
-          value={fuel_type}
-          onChange={(e) => setFuelType(e.target.value)}
-        >
-          <option value="">Select Fuel Type</option>
-          <option value="petrol">Petrol</option>
-          <option value="diesel">Diesel</option>
-          <option value="EV">EV</option>
-        </select>{clientErrors&&<p style={{color:'red'}}>{clientErrors.fuel_type}</p>}
-        <select
-          className="border p-2 rounded-md"
-          value={transmission}
-          onChange={(e) => setTransmission(e.target.value)}
-        >
-          <option value="">Select Transmission</option>
-          <option value="manual">Manual</option>
-          <option value="automatic">Automatic</option>
-        </select>{clientErrors&&<p style={{color:'red'}}>{clientErrors.transmission}</p>}
-        <input
-          className="border p-2 rounded-md"
-          type="number"
-          placeholder="Seats"
-          value={seats}
-          onChange={(e) => setSeats(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.seats}</p>}
-        <input
-          className="border p-2 rounded-md"
-          type="number"
-          placeholder="Price Per Hour"
-          value={price_Per_Hour}
-          onChange={(e) => setPricePerHour(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.price_Per_Hour}</p>}
-        <input
-          className="border p-2 rounded-md"
-          type="number"
-          placeholder="Price Per Day"
-          value={price_Per_Day}
-          onChange={(e) => setPricePerDay(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.price_Per_Day}</p>}
-        <input
-          className="border p-2 rounded-md"
-          placeholder="Location (lat,lng)"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.location}</p>}
-        <input
-          className="border p-2 rounded-md"
-          placeholder="Image URL"
-          value={images}
-          onChange={(e) => setImages(e.target.value)}
-        />{clientErrors&&<p style={{color:'red'}}>{clientErrors.images}</p>}
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={gpsTrack}
-            onChange={(e) => setGpsTrack(e.target.checked)}
-          />
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-xl rounded-2xl mt-10">
+      <h1 className="text-3xl font-bold text-indigo-700 text-center mb-6">
+        {carsEditId ? "Edit Car Details" : "Add New Car"}
+      </h1>
+
+      {serverErr && (
+        <ul className="bg-red-100 p-4 mb-4 rounded-md text-red-700">
+          {serverErr.errors?.map((err, i) => (
+            <li key={i}>{err.msg}</li>
+          ))}
+        </ul>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Car Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <input className={inputClass} placeholder="Car Name" value={carName} onChange={(e) => setCarName(e.target.value)} />
+            {clientErrors.carName && <p className={errorClass}>{clientErrors.carName}</p>}
+          </div>
+          <div>
+            <input className={inputClass} placeholder="Brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
+            {clientErrors.brand && <p className={errorClass}>{clientErrors.brand}</p>}
+          </div>
+          <div>
+            <input className={inputClass} placeholder="Model" value={model} onChange={(e) => setModel(e.target.value)} />
+            {clientErrors.model && <p className={errorClass}>{clientErrors.model}</p>}
+          </div>
+          <div>
+            <input className={inputClass} type="number" placeholder="Year" value={year} onChange={(e) => setYear(e.target.value)} />
+            {clientErrors.year && <p className={errorClass}>{clientErrors.year}</p>}
+          </div>
+        </div>
+
+        {/* Specifications */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <select className={inputClass} value={fuel_type} onChange={(e) => setFuelType(e.target.value)}>
+              <option value="">Select Fuel Type</option>
+              <option value="petrol">Petrol</option>
+              <option value="diesel">Diesel</option>
+              <option value="ev">EV</option>
+            </select>
+            {clientErrors.fuel_type && <p className={errorClass}>{clientErrors.fuel_type}</p>}
+          </div>
+          <div>
+            <select className={inputClass} value={transmission} onChange={(e) => setTransmission(e.target.value)}>
+              <option value="">Select Transmission</option>
+              <option value="manual">Manual</option>
+              <option value="automatic">Automatic</option>
+            </select>
+            {clientErrors.transmission && <p className={errorClass}>{clientErrors.transmission}</p>}
+          </div>
+          <div>
+            <input className={inputClass} type="number" placeholder="Seats" value={seats} onChange={(e) => setSeats(e.target.value)} />
+            {clientErrors.seats && <p className={errorClass}>{clientErrors.seats}</p>}
+          </div>
+        </div>
+
+        {/* Pricing */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <input className={inputClass} type="number" placeholder="Price Per Hour" value={price_Per_Hour} onChange={(e) => setPricePerHour(e.target.value)} />
+            {clientErrors.price_Per_Hour && <p className={errorClass}>{clientErrors.price_Per_Hour}</p>}
+          </div>
+          <div>
+            <input className={inputClass} type="number" placeholder="Price Per Day" value={price_Per_Day} onChange={(e) => setPricePerDay(e.target.value)} />
+            {clientErrors.price_Per_Day && <p className={errorClass}>{clientErrors.price_Per_Day}</p>}
+          </div>
+        </div>
+
+        {/* Location & Image */}
+        <input className={inputClass} placeholder="Location (lat,lng)" value={location} onChange={(e) => setLocation(e.target.value)} />
+        {clientErrors.location && <p className={errorClass}>{clientErrors.location}</p>}
+
+        <input className={inputClass} placeholder="Image URL" value={images} onChange={(e) => setImages(e.target.value)} />
+        {clientErrors.images && <p className={errorClass}>{clientErrors.images}</p>}
+
+        {/* GPS */}
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={gpsTrack} onChange={(e) => setGpsTrack(e.target.checked)} />
           Enable GPS Tracking
         </label>
+
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+          className="w-full py-3 mt-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-medium transition"
         >
-          AddCar
+          {carsEditId ? "Update Car" : "Add Car"}
         </button>
       </form>
     </div>
