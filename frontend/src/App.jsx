@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import About from './components/about';
+import PrivacyPolicy from "./pages/privacy policy"
 import Home from './pages/Home';
 import Register from './components/register';
 import Login from './components/login';
-import Account from './components/account';
+// import Account from './components/account';
 import Cars from './components/carsContainer';
 import PrivateRoute from './components/privateRoute';
 import ProtectedRoute from './components/protectedRoute';
@@ -22,8 +23,9 @@ import { fetchAllCars } from './slices/carslices';
 import CarLists from './components/carslists';
 import  ContactUs from "./pages/contact"
 import Carsform from './components/carsform';
-import Payment from './components/payments';
-
+import RazorpayPayment from './components/payments';
+import AIAssistant from './pages/aiAssiant';
+ 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -50,10 +52,20 @@ function App() {
     {/* Navbar */}
     <nav className="fixed top-0 left-0 w-full z-50 bg-gray-800 text-white shadow-md flex items-center justify-between p-4">
 
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
+         <Link to="/">
         <span className="text-2xl font-bold text-red-400">G</span>
         <h1 className="text-xl font-semibold">GEN-GO CAR RENTALS</h1>
-      </div>
+     
+      </div> */}
+      <div className="flex items-center space-x-2">
+      <Link to="/">
+        <span className="w-10 h-10 flex items-center justify-center text-2xl font-bold text-orange-500 bg-red-100 rounded-full cursor-pointer hover:bg-red-200 transition">
+          G
+        </span>
+      </Link>
+      <h1 className="text-xl font-semibold">GEN-GO CAR RENTALS</h1>
+    </div>
 
       <div className="flex items-center space-x-4">
         <button
@@ -63,10 +75,11 @@ function App() {
         >
           {darkMode ? '☀️' : '🌙'}
         </button>
+        
 
         {isLoggedIn ? (
           <>
-            <Link className="hover:underline" to="/account">Account</Link>
+            {/* <Link className="hover:underline" to="/account">Account</Link> */}
             {userData?.role === 'provider' && (
               <Link className="hover:underline" to="/cars">Cars</Link>
             )}
@@ -105,6 +118,7 @@ function App() {
         )}
       </div>
     </nav>
+    
 
     {/* Main Content */}
     <main className="flex-grow pt-20 p-6">
@@ -113,12 +127,13 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/userlist" element={<UserList />} />
-        <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
+        {/* <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} /> */}
         <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="/approve-cars" element={<ApproveCars />} />
         <Route path="/userBookingList" element={<UserBooking/>}/>
         <Route path="/carbooking/:id" element={<CarBookingForm />} />
         <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<PrivacyPolicy/>}/>
         <Route path="/carlist" element={<CarLists />} />
          <Route path="/carform" element={<Carsform />} />
         <Route path="/cars" element={
@@ -130,13 +145,15 @@ function App() {
         } />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path='/payments'element={<Payment/>}/>
+        <Route path='/payments/:id'element={<RazorpayPayment/>}/>
         <Route path="/unauthorized" element={<Unauthorized />} />
+        
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
+      
     </main>
 
-   <footer className="backdrop-blur-md bg-white/10 border-t border-white/30 text-blue py-6 px-8">
+   <footer className="backdrop-blur-md bg-black/10 border-t border-white/30 text-blue py-6 px-8">
   <p className="mb-2">© 2025 GEN-GO Car Rentals. All rights reserved.</p>
   <div className="flex justify-center gap-4">
     <Link to="/about" className="hover:underline">AboutUs</Link>

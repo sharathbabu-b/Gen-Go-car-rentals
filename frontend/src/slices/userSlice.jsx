@@ -28,7 +28,7 @@ export const fetchAllUsers=createAsyncThunk("user/fetchAllUsers",async(_,{reject
 
     }
 })
-export const updateUserAccount=createAsyncThunk("user/updateUserAccount",async(id,{rejectWithValue})=>{
+export const updateUserAccount=createAsyncThunk("user/updateUserAccount",async({},{rejectWithValue})=>{
     try{
         const response=await axios.put(`/updateuseraccount/${id}`,{headers:{Authorization:localStorage.getItem("token")}})
         console.log(response.data)

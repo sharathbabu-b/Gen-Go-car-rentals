@@ -57,7 +57,7 @@ export default function CarBookingForm() {
       return;
     }
 
-    const bookingData = {
+    const bookingObj = {
       car: carDetails.carName,
       carId: id,
       pickup_Location,
@@ -70,9 +70,10 @@ export default function CarBookingForm() {
     };
 
     try {
-      await dispatch(createBooking(bookingData)).unwrap();
+      const createbooking=await dispatch(createBooking(bookingObj)).unwrap();
       alert("Booking successful!");
-      navigate("/payments");
+      console.log(createbooking)
+      navigate(`/payments/${createbooking._id}`);
     }catch(err) {
       console.log(err)
       alert("Booking failed. Please try again.");

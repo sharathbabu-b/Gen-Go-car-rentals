@@ -38,10 +38,26 @@ export const deleteBooking=createAsyncThunk("booking/deletedBooking",async(id,{r
         })
     }
 })
+
+//getbyid
+export const fetchBooking=createAsyncThunk("booking/fetchBooking",async(id,{rejectWithValue})=>{
+    try{
+        const response=await axios.get(`/getbookingId/${id}`,{headers:{Authorization:localStorage.getItem('token')}})
+        console.log(response.data)
+        return response.data
+    }catch(error){
+        console.log(error)
+        return rejectWithValue({
+            message:error?.messaage||"something went wrong",
+             errors:error.response.data.errors
+        })
+    }
+})
 const bookingSlice=createSlice({
     name:"booking",
     initialState:{
         bookingData:[],
+        booking:null,
         loading:false,
         serverErr:null,
         bookingsEditId:null
@@ -73,7 +89,14 @@ const bookingSlice=createSlice({
             state.loading=false
             state.serverErr="something went wrong "
         })
-        
+        //fetchbooking
+        builder.addCase(fetchBooking.pending,(state)=>{
+            state.loading=true
+        })
+        builder.addCase(fetchBooking.fulfilled,(state,action)=>{
+            state.booking=action.payload
+            state.loading=false
+        })
 
     }
 
