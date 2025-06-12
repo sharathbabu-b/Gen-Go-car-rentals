@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import Payment from "../models/paymentModels.js";
 import crypto from "crypto"
 import razorpay from "../../utils/razorpay.js";
+import Booking from "../models/bookingModels.js";
 const paymentCtrl={}
 paymentCtrl.getallPayments=async(req,res)=>{
     try{
@@ -21,7 +22,7 @@ paymentCtrl.create=async(req,res)=>{
     }
     const{bookingId,userId,carId,amount,paymentMethod,paymentStatus}=req.body
     try{
-        const paymentcreate=new Payment(body)
+        const paymentcreate=new Payment(bookingId,userId,carId,amount,paymentMethod,paymentStatus)
         await paymentcreate.save()
         res.status(201).json(paymentcreate)
 }catch(error){
@@ -125,6 +126,10 @@ paymentCtrl.deletePayment=async(req,res)=>{
 paymentCtrl.createRazorpayOrder = async (req, res) => {
   const { amount, currency = "INR", bookingId, carId, userId } = req.body;
 
+  // ✅ Log incoming request data
+  console.log("📦 Received Payment Request:", req.body);
+  console.log("🔐 Razorpay Keys:", process.env.RAZORPAY_KEY_ID, process.env.RAZORPAY_KEY_SECRET);
+
   if (!amount || !userId || !bookingId || !carId) {
     return res.status(400).json({ errors: "Missing required fields" });
   }
@@ -136,7 +141,7 @@ paymentCtrl.createRazorpayOrder = async (req, res) => {
     }
 
     const options = {
-      amount: amount * 100,
+      amount: amount * 100, // Razorpay expects paise
       currency,
       receipt: `receipt_order_${Date.now()}`,
     };
@@ -150,7 +155,7 @@ paymentCtrl.createRazorpayOrder = async (req, res) => {
       userId,
       paymentMethod: "razorpay",
       paymentStatus: "pending",
-      razorpay_order_id: order.id, // ✅ Store this to match during verification
+      razorpay_order_id: order.id,
     });
 
     res.status(201).json({
@@ -159,13 +164,51 @@ paymentCtrl.createRazorpayOrder = async (req, res) => {
       payment,
     });
   } catch (error) {
-    console.error("Create order error:", error);
+    console.error("❌ Create order error:", error);
     res.status(500).json({
       errors: "Failed to create Razorpay order",
       details: error?.message || "Unknown error",
     });
   }
 };
+
+// paymentCtrl.verifyRazorpayPayment = async (req, res) => {
+//   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+//   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+//     return res.status(400).json({ errors: "Missing required fields for verification" });
+//   }
+
+//   try {
+//     const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+//     const expectedSignature = crypto
+//       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+//       .update(body)
+//       .digest("hex");
+
+//     if (expectedSignature !== razorpay_signature) {
+//       return res.status(400).json({ error: "Invalid signature" });
+//     }
+
+//     const payment = await Payment.findOne({ razorpay_order_id });
+//     if (!payment) {
+//       return res.status(404).json({ error: "Payment record not found" });
+//     }
+
+//     payment.paymentStatus = "success";
+//     payment.razorpay_payment_id = razorpay_payment_id;
+//     payment.razorpay_signature = razorpay_signature;
+//     await payment.save();
+
+//     res.status(200).json({
+//       message: "Payment verified successfully",
+//       payment,
+//     });
+//   } catch (error) {
+//     console.error("Verification error:", error);
+//     res.status(500).json({ error: "Payment verification failed" });
+//   }
+// };
 paymentCtrl.verifyRazorpayPayment = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -189,14 +232,23 @@ paymentCtrl.verifyRazorpayPayment = async (req, res) => {
       return res.status(404).json({ error: "Payment record not found" });
     }
 
+    // ✅ Update payment details
     payment.paymentStatus = "success";
     payment.razorpay_payment_id = razorpay_payment_id;
     payment.razorpay_signature = razorpay_signature;
     await payment.save();
 
+    // ✅ Also update booking's payment status
+    const booking = await Booking.findById(payment.bookingId);
+    if (booking) {
+      booking.paymentStatus = "paid"; // or "success" or any term you prefer
+      await booking.save();
+    }
+
     res.status(200).json({
-      message: "Payment verified successfully",
+      message: "Payment verified and booking updated successfully",
       payment,
+      booking,
     });
   } catch (error) {
     console.error("Verification error:", error);

@@ -59,6 +59,8 @@ app.get("/car/:id",authenticationUser,authorization(["admin"]),checkSchema(idVal
 app.put("/updateCar/:id",authenticationUser,authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.updateCar)
 app.delete("/deleteCar/:id",authenticationUser,authorization(["admin","provider"]),checkSchema(idValidationSchema),CarCltr.deleteCar)
 app.put("/approveCar/:id",authenticationUser,authorization(['admin']),CarCltr.isApproved)
+app.get("/available",CarCltr.getAvailableCars)
+app.get("/nearbycars",CarCltr.getNearbyCars)
 
 // booking routes
 app.get("/getallbooking",bookingCtrl.getAllBookings)
