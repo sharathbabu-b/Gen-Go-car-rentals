@@ -44,6 +44,7 @@ export default function Carsform() {
     e.preventDefault();
     const currentYear = new Date().getFullYear();
     const errors = {};
+
     const resetForm = () => {
       setCarName("");
       setBrand("");
@@ -59,7 +60,6 @@ export default function Carsform() {
       setFuelType("");
     };
 
-    // Validation
     if (!carName.trim()) errors.carName = "Car Name is required";
     if (!brand.trim()) errors.brand = "Brand is required";
     if (!model.trim()) errors.model = "Model is required";
@@ -74,6 +74,7 @@ export default function Carsform() {
     if (!price_Per_Day || price_Per_Day <= 0)
       errors.price_Per_Day = "Price per day must be positive";
     if (!location.trim()) errors.location = "Location is required";
+
     try {
       new URL(images);
     } catch {
@@ -111,11 +112,15 @@ export default function Carsform() {
     setClientErrors({});
   };
 
-  const inputClass = "w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400";
+  const inputClass =
+    "w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400";
   const errorClass = "text-sm text-red-500 mt-1";
 
   return (
     <div className="max-w-3xl mx-auto p-8 bg-white shadow-xl rounded-2xl mt-10">
+    
+
+      {/* Main heading */}
       <h1 className="text-3xl font-bold text-indigo-700 text-center mb-6">
         {carsEditId ? "Edit Car Details" : "Add New Car"}
       </h1>
