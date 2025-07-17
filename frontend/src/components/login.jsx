@@ -52,10 +52,11 @@ export default function Login() {
         const userResponse = await axios.get("/account", { headers: { Authorization: localStorage.getItem("token") } })
         dispatch(login(userResponse.data))
         toast.success('Login successful!');
-        if(userAccount.role=='admin'){
-          navigate('/admindashboard');
-        }
-        navigate("/account")
+        if (userResponse.data.role === "admin") {
+        navigate("/admindashboard");
+      } else {
+        navigate("/account");
+      }
       } catch (error) {
         setServerErrors(errors.response?.data?.error)
         setClientErrors({})

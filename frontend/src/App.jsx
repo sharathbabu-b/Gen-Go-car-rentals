@@ -3,6 +3,7 @@ import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SignIn, UserPlus } from "phosphor-react";
 import { Sun, Moon } from "lucide-react";
+
 import PaymentSuccess from './pages/paymentSuccess';
 import AccountPage from './components/account';
 import AdminpaymentList from './pages/adminpaymentslist';
@@ -21,7 +22,7 @@ import ResetPassword from './components/resetpassword';
 import UserList from './components/userList';
 import AdminDashboard from './pages/adminDashboard';
 import ApproveCars from './components/apporvecars';
-import CarBookingForm from './components/booking/carbookingForm';
+import CarBookingForm from './components/booking/CarBookingForm';
 import UserBooking from './components/booking/usercarbooking';
 import { logout, fetchUserAccount } from './slices/userSlice';
 import { fetchAllCars } from './slices/carslices';
@@ -29,6 +30,7 @@ import CarLists from './components/carslists';
 import ContactUs from "./pages/contact";
 import Carsform from './components/carsform';
 import RazorpayPayment from './components/payments';
+import AddReviewForm from "./components/carReviewpage"
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
@@ -80,6 +82,9 @@ function App() {
 
           {isLoggedIn ? (
             <>
+             <Link to="/add-review" className="hover:underline">
+      Add Review
+    </Link>
               {userData?.role === 'provider' && (
                 <Link className="hover:underline" to="/cars">Cars</Link>
               )}
@@ -168,6 +173,7 @@ function App() {
           <Route path="/search-cars" element={<SearchCars />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/payment-success/:bookingId" element={<PaymentSuccess/>} />
+          <Route path="/reviews/:carId" element={<AddReviewForm />} />
         </Routes>
       </main>
 
