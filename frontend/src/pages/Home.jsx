@@ -1,6 +1,6 @@
-import GenGoBanner from "../pages/homeBanner";
-import HomeSummary from "./homesummary";
-import CarSummary from "./carsummary";
+import GenGoBanner from "./HomeBanner";
+import HomeSummary from "./Homesummary";
+import CarSummary from "./Carsummary";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"; 
 import { useNavigate } from "react-router-dom";

@@ -4,33 +4,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SignIn, UserPlus } from "phosphor-react";
 import { Sun, Moon } from "lucide-react";
 
-import PaymentSuccess from './pages/paymentSuccess';
-import AccountPage from './components/account';
-import AdminpaymentList from './pages/adminpaymentslist';
-import About from './components/about';
-import SearchCars from './pages/searchCars';
-import PrivacyPolicy from "./pages/privacy policy";
+import PaymentSuccess from './pages/PaymentSuccess';
+import AccountPage from './components/Account';
+import AdminpaymentList from './pages/Adminpaymentslist';
+import About from './components/About';
+import SearchCars from './pages/SearchCars';
+import PrivacyPolicy from "./pages/Privacy policy";
 import Home from './pages/Home';
-import Register from './components/register';
-import Login from './components/login';
-import Cars from './components/carsContainer';
-import PrivateRoute from './components/privateRoute';
-import ProtectedRoute from './components/protectedRoute';
-import Unauthorized from './components/unauathorized';
-import ForgotPassword from './components/forgotpassword';
-import ResetPassword from './components/resetpassword';
-import UserList from './components/userList';
-import AdminDashboard from './pages/adminDashboard';
-import ApproveCars from './components/apporvecars';
-import CarBookingForm from "./components/booking/CarbookingForm"
-import UserBooking from './components/booking/usercarbooking';
+import Register from './components/Register';
+import Login from './components/Login';
+import Cars from './components/CarsContainer';
+import PrivateRoute from './components/PrivateRoute';
+import ProtectedRoute from './components/ProtectedRoute';
+import Unauthorized from './components/Unauathorized';
+import ForgotPassword from './components/Forgotpassword';
+import ResetPassword from './components/Resetpassword';
+import UserList from './components/UserList';
+import AdminDashboard from './pages/AdminDashboard';
+import ApproveCars from './components/Apporvecars';
+import BookingForm from './components/booking/BookingForm';
+import UserBooking from './components/booking/Usercarbooking';
 import { logout, fetchUserAccount } from './slices/userSlice';
 import { fetchAllCars } from './slices/carslices';
-import CarLists from './components/carslists';
-import ContactUs from "./pages/contact";
-import Carsform from './components/carsform';
-import RazorpayPayment from './components/payments';
-import AddReviewForm from "./components/carReviewpage"
+import CarLists from './components/Carslists';
+import ContactUs from "./pages/Contact";
+import Carsform from './components/Carsform';
+import RazorpayPayment from './components/Payments';
+import AddReviewForm from "./components/CarReviewpage"
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
@@ -146,7 +146,7 @@ function App() {
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/approve-cars" element={<ApproveCars />} />
           <Route path="/userBookingList" element={<UserBooking />} />
-          <Route path="/carbooking/:id" element={<CarBookingForm />} />
+          <Route path="/carbooking/:id" element={<BookingForm />} />
           <Route path="/about" element={<About />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/carlist" element={<CarLists />} />
