@@ -22,7 +22,7 @@ import ResetPassword from './components/resetpassword';
 import UserList from './components/userList';
 import AdminDashboard from './pages/adminDashboard';
 import ApproveCars from './components/apporvecars';
-import CarBookingForm from './components/booking/CarBookingForm';
+import CarBookingForm from "./components/booking/CarbookingForm"
 import UserBooking from './components/booking/usercarbooking';
 import { logout, fetchUserAccount } from './slices/userSlice';
 import { fetchAllCars } from './slices/carslices';
