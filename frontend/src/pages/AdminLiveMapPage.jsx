@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "../axios/axios";
-import LiveCarMap from "../components/CarMap";
+import LiveCarMap from "../components/CarMapPage";
 import { set } from "date-fns";
 export default function AdminLiveMap(){
     const [cars,setCars]=useState([])

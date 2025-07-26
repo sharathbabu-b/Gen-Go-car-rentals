@@ -1,4 +1,4 @@
-import CarList from "./Carslists";
+import CarList from "./CarslistsPage";
 import { useNavigate } from "react-router-dom";
 
 export default function Cars() {

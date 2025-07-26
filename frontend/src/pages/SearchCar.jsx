@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import GeoapifyAutoComplete from "../components/Geoapify";
-import CarMap from "../components/CarMap";
+import GeoapifyAutoComplete from "../components/GeoapifyPage";
+import CarMap from "../components/CarMapPage";
 import axios from "../axios/axios"
 export default function SearchCars(){
     const [loaction,setLocation]=useState(null)

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchAllCars, assignEditId, deleteCars } from "../slices/carslices";
-import CarMap from "./CarMap";
+import CarMap from "./CarMapPage";
 
 export default function CarLists() {
   const navigate = useNavigate();

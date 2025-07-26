@@ -3,37 +3,37 @@ import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SignIn, UserPlus } from "phosphor-react";
 import { Sun, Moon } from "lucide-react";
-import Support from './pages/support';
+import Support from './pages/Supports';
 
 // import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import AccountPage from './components/Accounts';
-import AdminpaymentList from './pages/Adminpaymentslists';
+import AdminpaymentList from './pages/AdminpaymentslistPage';
 import About from './components/Abouts';
 import SearchCars from './pages/SearchCar';
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Home from './pages/Home';
-import Register from './components/Register';
-import Login from './components/Login';
-import Cars from './components/CarsContainer';
-import PrivateRoute from './components/PrivateRoute';
-import ProtectedRoute from './components/ProtectedRoute';
-import Unauthorized from './components/Unauathorized';
-import ForgotPassword from './components/Forgotpassword';
-import ResetPassword from './components/Resetpassword';
-import UserList from './components/UserList';
-import AdminDashboard from './pages/AdminDashboard';
-import ApproveCars from './components/Apporvecars';
+import Home from './pages/HomePage';
+import Register from './components/RegisterPage';
+import Login from './components/LoginPage';
+import Cars from './components/CarsContainerPage';
+import PrivateRoute from './components/PrivateRoutes';
+import ProtectedRoute from './components/ProtectedRoutes';
+import Unauthorized from './components/UnauathorizedPage';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
+import UserList from './components/UserListPage';
+import AdminDashboard from './pages/AdminDashboardPage';
+import ApproveCars from './components/Apporvecar';
 import BookingForm from './components/booking/BookingForm';
 import UserBooking from './components/booking/Usercarbookings';
 import { logout, fetchUserAccount } from './slices/userSlice';
 import { fetchAllCars } from './slices/carslices';
-import CarLists from './components/Carslists';
-import ContactUs from "./pages/Contact";
-import Carsform from './components/Carsform';
+import CarLists from './components/CarslistsPage';
+import ContactUs from "./pages/ContactPages";
+import Carsform from './components/CarsformPage';
 import RazorpayPayment from './components/Payments';
-import AddReviewForm from "./components/CarReviewpage"
-import AdminLiveMap from './pages/AdminLiveMap';
+import AddReviewForm from "./components/CarReviewPage"
+import AdminLiveMap from './pages/AdminLiveMapPage';
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
