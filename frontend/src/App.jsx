@@ -8,7 +8,7 @@ import Support from './pages/support';
 // import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import AccountPage from './components/Accounts';
-import AdminpaymentList from './pages/Adminpaymentslist';
+import AdminpaymentList from './pages/Adminpaymentslists';
 import About from './components/About';
 import SearchCars from './pages/SearchCars';
 import PrivacyPolicy from "./pages/Privacy policy";
