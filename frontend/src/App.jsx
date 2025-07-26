@@ -20,7 +20,7 @@ import PrivateRoute from './components/PrivateRoutes';
 import ProtectedRoute from './components/ProtectedRoutes';
 import Unauthorized from './components/UnauathorizedPage';
 import ForgotPassword from './components/ForgotPasswordPage';
-import ResetPassword from './components/ResetPassword';
+import ResetPassword from './components/ResetPasswordPage';
 import UserList from './components/UserListPage';
 import AdminDashboard from './pages/AdminDashboardPage';
 import ApproveCars from './components/Apporvecar';
@@ -31,7 +31,7 @@ import { fetchAllCars } from './slices/carslices';
 import CarLists from './components/CarslistsPage';
 import ContactUs from "./pages/ContactPages";
 import Carsform from './components/CarsformPage';
-import RazorpayPayment from './components/Payments';
+import RazorpayPayment from './components/PaymentPage';
 import AddReviewForm from "./components/CarReviewPage"
 import AdminLiveMap from './pages/AdminLiveMapPage';
 
