@@ -3,7 +3,7 @@ import cors from "cors"
 import http from "http"
 import { Server } from "socket.io"
 
-import openaiCltr from "./app/controllers/openaiControllers.js"
+// import openaiCltr from "./app/controllers/openaiControllers.js"
 import { upload } from "./utils/uploadMiddleware.js"
 import ConfigureData from "./confiq/db.js"
 import dotenv from "dotenv"
