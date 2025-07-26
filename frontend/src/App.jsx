@@ -32,7 +32,7 @@ import CarLists from './components/CarslistsPage';
 import ContactUs from "./pages/ContactPages";
 import Carsform from './components/CarsformPage';
 import RazorpayPayment from './components/PaymentPage';
-import AddReviewForm from "./components/CarReviewPage"
+import AddReviewForm from "./components/CarReviewsPage"
 import AdminLiveMap from './pages/AdminLiveMapPage';
 
 function App() {
