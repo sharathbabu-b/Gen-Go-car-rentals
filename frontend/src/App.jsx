@@ -5,6 +5,7 @@ import { SignIn, UserPlus } from "phosphor-react";
 import { Sun, Moon } from "lucide-react";
 import Support from './pages/support';
 
+// import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentSuccess from './pages/PaymentSuccess';
 import AccountPage from './components/Account';
 import AdminpaymentList from './pages/Adminpaymentslist';

@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const PaymentSuccess = () => {
+function PaymentSuccess (){
   const { bookingId } = useParams();
   const { bookingData } = useSelector((state) => state.booking);
   const booking = bookingData?.find((b) => b._id === bookingId);
