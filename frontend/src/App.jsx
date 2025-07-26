@@ -3,6 +3,7 @@ import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SignIn, UserPlus } from "phosphor-react";
 import { Sun, Moon } from "lucide-react";
+import Support from './pages/support';
 
 import PaymentSuccess from './pages/PaymentSuccess';
 import AccountPage from './components/Account';
@@ -31,6 +32,7 @@ import ContactUs from "./pages/Contact";
 import Carsform from './components/Carsform';
 import RazorpayPayment from './components/Payments';
 import AddReviewForm from "./components/CarReviewpage"
+import AdminLiveMap from './pages/AdminLiveMap';
 
 function App() {
   const { isLoggedIn, userData } = useSelector((state) => state.user);
@@ -99,7 +101,11 @@ function App() {
               <Link className='hover:underline' to="/account">Account</Link>
               <Link className="hover:underline" to="/userBookingList">Booking List</Link>
               {userData?.role === 'user' && (
+                <>
                 <Link className="hover:underline" to="/carlist">Cars</Link>
+                  <Link className="hover:underline" to="/addreview">Add review</Link>
+                </>
+                
               )}
               <button
                 onClick={() => {
@@ -174,6 +180,8 @@ function App() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/payment-success/:bookingId" element={<PaymentSuccess/>} />
           <Route path="/reviews/:carId" element={<AddReviewForm />} />
+          <Route path="/adminlivemap:carid" element={<AdminLiveMap/>}/>
+           <Route path="/support" element={<Support />} />
         </Routes>
       </main>
 
@@ -185,6 +193,13 @@ function App() {
           <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
           <Link to="/contact" className="hover:underline">Contact Us</Link>
         </div>
+         <div className="flex flex-col gap-2">
+      <Link to="/cars" className="hover:underline">Browse Cars</Link>
+      <Link to="/offers" className="hover:underline">Latest Offers</Link>
+      <Link to="/locations" className="hover:underline">Rental Locations</Link>
+      <Link to="/partner" className="hover:underline">Become a Partner</Link>
+      <Link to="/support" className="hover:underline">Support</Link>
+    </div>
       </footer>
     </div>
   );

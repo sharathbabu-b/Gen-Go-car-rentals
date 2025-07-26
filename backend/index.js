@@ -1,5 +1,7 @@
 import express from "express"
-import cors from "cors"
+import cors from "cors" 
+import http from "http"
+import { Server } from "socket.io"
 
 import openaiCltr from "./app/controllers/openaiControllers.js"
 import { upload } from "./utils/uploadMiddleware.js"
@@ -21,6 +23,7 @@ import bookingCtrl from "./app/controllers/bookingController.js"
 import  subscriptionCtrl from "./app/controllers/subscriptionplanControllers.js"
 import reviewCtrl  from "./app/controllers/reviewController.js"
 import paymentCtrl from "./app/controllers/paymentControllers.js"
+import { Socket } from "net"
 
 
 
@@ -31,6 +34,36 @@ dotenv.config()
 app.use(express.json())
 app.use(cors())
 // app.use(morgan(":remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms"))
+
+const server=http.createServer(app)
+const io=new Server(server,{
+    cors:{
+        origin:"*",
+        methods:["GET","POST"]
+    }
+});
+
+io.on("connection",(socket)=>{
+    console.log(`Socket connected:${socket.id}`);
+    
+      socket.on('chat-message', (msg) => {
+    socket.broadcast.emit('chat-message', msg);
+  });
+
+    socket.on("carLocationUpdate",(data)=>{
+        console.log("Car location Update:",data)
+        io.emit("carLocationBroadcast",data)
+    })
+    socket.on("bookingCreated",(data)=>{
+        console.log("New booking created:",data)
+        io.emit("bookingNotification",data)
+    });
+
+    socket.on("disconnect",()=>{
+        console.log(`Socket disconnected: ${socket.id}`)
+    })
+})
+export {io}
 
 app.get("/",(req,res)=>{
     res.send("welcome to Gengo car rentals")

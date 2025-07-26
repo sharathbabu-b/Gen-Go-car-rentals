@@ -9,6 +9,11 @@ import { toast } from 'react-toastify'
 import logo from '../assets/logo1.png'
 // import logo from "src/assests/"
 import { fetchUserAccount } from "../slices/userSlice";
+const Spinner = () => (
+  <div className="flex justify-center items-center h-screen">
+    <div className="border-4 border-blue-500 border-t-transparent w-10 h-10 rounded-full animate-spin"></div>
+  </div>
+);
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -16,6 +21,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [clientErrors, setClientErrors] = useState({});
   const [serverErrors, setServerErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -31,6 +37,7 @@ export default function Login() {
   console.log(userAccount)
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true);
     const errors = {}
     if (email.trim().length == 0) {
       errors.email = "Email is required"
@@ -44,6 +51,7 @@ export default function Login() {
     }
     if (Object.keys(errors).length > 0) {
       setClientErrors(errors);
+      setLoading(false);
     } else {
       const formData = { email, password };
       try {
@@ -52,6 +60,7 @@ export default function Login() {
         const userResponse = await axios.get("/account", { headers: { Authorization: localStorage.getItem("token") } })
         dispatch(login(userResponse.data))
         toast.success('Login successful!');
+        setLoading(false)
         if (userResponse.data.role === "admin") {
         navigate("/admindashboard");
       } else {
@@ -61,10 +70,11 @@ export default function Login() {
         setServerErrors(errors.response?.data?.error)
         setClientErrors({})
         toast.error('Login failed');
+         setLoading(false)
       }
     }
   }
-
+if (loading) return <Spinner />
 
   return (
     <div className="min-h-screen flex w-full">
