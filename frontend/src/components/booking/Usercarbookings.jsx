@@ -1,4 +1,4 @@
-import BookingList from "./Bookinglist";
+import BookingList from "./Bookinglists";
 
 export default function UserBooking(){
     return (
