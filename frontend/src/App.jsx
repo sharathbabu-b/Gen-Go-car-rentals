@@ -6,7 +6,7 @@ import { Sun, Moon } from "lucide-react";
 import Support from './pages/support';
 
 // import PaymentSuccess from './pages/PaymentSuccess';
-import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentSuccessPage from './pages/PaymentSuccess';
 import AccountPage from './components/Account';
 import AdminpaymentList from './pages/Adminpaymentslist';
 import About from './components/About';
@@ -179,7 +179,7 @@ function App() {
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/search-cars" element={<SearchCars />} />
           <Route path="/contact" element={<ContactUs />} />
-          <Route path="/payment-success/:bookingId" element={<PaymentSuccess/>} />
+          <Route path="/payment-success/:bookingId" element={<PaymentSuccessPage/>} />
           <Route path="/reviews/:carId" element={<AddReviewForm />} />
           <Route path="/adminlivemap:carid" element={<AdminLiveMap/>}/>
            <Route path="/support" element={<Support />} />
