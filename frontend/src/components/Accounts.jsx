@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserAccount, fetchUserAccount } from "../slices/userSlice";
 import { toast } from "react-toastify";
 import { Camera } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function AccountPage() {
   const dispatch = useDispatch();
@@ -92,6 +93,10 @@ export default function AccountPage() {
           className="hidden"
           accept="image/*"
         />
+      </div>
+
+      <div className="flex justify-center">
+        <Link>Update Profile</Link>
       </div>
 
       {/* Account Form */}

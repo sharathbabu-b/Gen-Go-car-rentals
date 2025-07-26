@@ -3,11 +3,13 @@ import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SignIn, UserPlus } from "phosphor-react";
 import { Sun, Moon } from "lucide-react";
-import Support from './pages/Supports';
+// import Support from './pages/Supports';
+
 
 // import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import AccountPage from './components/Accounts';
+import ProfilePage from './components/ProfilePage';
 import AdminpaymentList from './pages/AdminpaymentslistPage';
 import About from './components/Abouts';
 import SearchCars from './pages/SearchCar';
@@ -76,25 +78,25 @@ function App() {
         <div className="flex items-center space-x-4">
           {/* 🌙/☀️ Dark Mode Toggle */}
           <button
-  onClick={() => setDarkMode(!darkMode)}
-  aria-label="Toggle Dark Mode"
-  className="text-white dark:text-yellow-300 transition duration-300"
->
-  {darkMode ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
-</button>
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle Dark Mode"
+            className="text-white dark:text-yellow-300 transition duration-300"
+          >
+            {darkMode ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
+          </button>
 
           {isLoggedIn ? (
             <>
-             <Link to="/add-review" className="hover:underline">
-      Add Review
-    </Link>
+              <Link to="/add-review" className="hover:underline">
+                Add Review
+              </Link>
               {userData?.role === 'provider' && (
                 <Link className="hover:underline" to="/cars">Cars</Link>
               )}
               {userData?.role === 'admin' && (
                 <>
                   <Link className="hover:underline" to="/userlist">Users</Link>
-                  
+
                   <Link className='hover:underline' to="/approve-cars">Approve Cars</Link>
                   <Link className="hover:underline" to="/admindashboard">Dashboard</Link>
                 </>
@@ -103,10 +105,10 @@ function App() {
               <Link className="hover:underline" to="/userBookingList">Booking List</Link>
               {userData?.role === 'user' && (
                 <>
-                <Link className="hover:underline" to="/carlist">Cars</Link>
+                  <Link className="hover:underline" to="/carlist">Cars</Link>
                   <Link className="hover:underline" to="/addreview">Add review</Link>
                 </>
-                
+
               )}
               <button
                 onClick={() => {
@@ -121,21 +123,21 @@ function App() {
             </>
           ) : (
             <>
-            <Link
-  to="/register"
-  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition flex items-center gap-2"
->
-  <UserPlus size={20} weight="bold" />
-  Register
-</Link>
+              <Link
+                to="/register"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition flex items-center gap-2"
+              >
+                <UserPlus size={20} weight="bold" />
+                Register
+              </Link>
 
-<Link
-  to="/login"
-  className="bg-gray-200 dark:bg-gray-700 dark:text-white text-gray-800 px-4 py-2 rounded border hover:bg-gray-300 dark:hover:bg-gray-600 transition flex items-center gap-2"
->
-  <SignIn size={20} weight="bold" />
-  Login
-</Link>
+              <Link
+                to="/login"
+                className="bg-gray-200 dark:bg-gray-700 dark:text-white text-gray-800 px-4 py-2 rounded border hover:bg-gray-300 dark:hover:bg-gray-600 transition flex items-center gap-2"
+              >
+                <SignIn size={20} weight="bold" />
+                Login
+              </Link>
 
             </>
           )}
@@ -146,7 +148,8 @@ function App() {
       <main className="flex-grow pt-20 p-6">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/account" element={<AccountPage/>}/>
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/userlist" element={<UserList />} />
@@ -158,11 +161,11 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/carlist" element={<CarLists />} />
           <Route path="/carform" element={<Carsform />} />
-          <Route path="/adminpaymentlist"element={ <PrivateRoute>
-    <ProtectedRoute roles={['admin']}>
-      <AdminpaymentList/>
-    </ProtectedRoute>
-  </PrivateRoute>}/>
+          <Route path="/adminpaymentlist" element={<PrivateRoute>
+            <ProtectedRoute roles={['admin']}>
+              <AdminpaymentList />
+            </ProtectedRoute>
+          </PrivateRoute>} />
           <Route
             path="/cars"
             element={
@@ -179,10 +182,10 @@ function App() {
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/search-cars" element={<SearchCars />} />
           <Route path="/contact" element={<ContactUs />} />
-          <Route path="/payment-success/:bookingId" element={<PaymentSuccessPage/>} />
+          <Route path="/payment-success/:bookingId" element={<PaymentSuccessPage />} />
           <Route path="/reviews/:carId" element={<AddReviewForm />} />
-          <Route path="/adminlivemap:carid" element={<AdminLiveMap/>}/>
-           <Route path="/support" element={<Support />} />
+          <Route path="/adminlivemap:carid" element={<AdminLiveMap />} />
+          {/* <Route path="/support" element={<Support />} /> */}
         </Routes>
       </main>
 
@@ -194,13 +197,13 @@ function App() {
           <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
           <Link to="/contact" className="hover:underline">Contact Us</Link>
         </div>
-         <div className="flex flex-col gap-2">
-      <Link to="/cars" className="hover:underline">Browse Cars</Link>
-      <Link to="/offers" className="hover:underline">Latest Offers</Link>
-      <Link to="/locations" className="hover:underline">Rental Locations</Link>
-      <Link to="/partner" className="hover:underline">Become a Partner</Link>
-      <Link to="/support" className="hover:underline">Support</Link>
-    </div>
+        <div className="flex flex-col gap-2">
+          <Link to="/cars" className="hover:underline">Browse Cars</Link>
+          <Link to="/offers" className="hover:underline">Latest Offers</Link>
+          <Link to="/locations" className="hover:underline">Rental Locations</Link>
+          <Link to="/partner" className="hover:underline">Become a Partner</Link>
+          <Link to="/support" className="hover:underline">Support</Link>
+        </div>
       </footer>
     </div>
   );

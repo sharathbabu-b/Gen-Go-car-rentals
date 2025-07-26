@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux'; // assuming auth info is in Redux
 
-const socket = io('http://localhost:5000'); // replace with your backend URL
+const socket = io('http://localhost:3500'); // replace with your backend URL
 
 const ChatBox = () => {
   const [message, setMessage] = useState('');
