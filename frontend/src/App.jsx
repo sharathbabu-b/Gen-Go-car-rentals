@@ -6,7 +6,7 @@ import { Sun, Moon } from "lucide-react";
 import Support from './pages/support';
 
 // import PaymentSuccess from './pages/PaymentSuccess';
-import PaymentSuccessPage from './pages/PaymentSuccess';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import AccountPage from './components/Account';
 import AdminpaymentList from './pages/Adminpaymentslist';
 import About from './components/About';
