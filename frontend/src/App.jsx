@@ -19,7 +19,7 @@ import Cars from './components/CarsContainerPage';
 import PrivateRoute from './components/PrivateRoutes';
 import ProtectedRoute from './components/ProtectedRoutes';
 import Unauthorized from './components/UnauathorizedPage';
-import ForgotPassword from './components/ForgotPassword';
+import ForgotPassword from './components/ForgotPasswordPage';
 import ResetPassword from './components/ResetPassword';
 import UserList from './components/UserListPage';
 import AdminDashboard from './pages/AdminDashboardPage';
