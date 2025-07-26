@@ -130,7 +130,7 @@ app.put('/reviewupdate/:id',authenticationUser,checkSchema(idValidationSchema),r
 app.delete('/reviewdelete/:id',authenticationUser,checkSchema(idValidationSchema),reviewCtrl.deleteReview)
 
 //Chat api's
-app.post("/messages/ai",openaiCltr.openAiChat)
+// app.post("/messages/ai",openaiCltr.openAiChat)
 
 
 
