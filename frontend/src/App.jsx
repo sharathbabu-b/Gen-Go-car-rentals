@@ -106,7 +106,7 @@ function App() {
               {userData?.role === 'user' && (
                 <>
                   <Link className="hover:underline" to="/carlist">Cars</Link>
-                  <Link className="hover:underline" to="/addreview">Add review</Link>
+                 
                 </>
 
               )}
