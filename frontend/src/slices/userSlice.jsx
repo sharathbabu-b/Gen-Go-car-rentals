@@ -28,9 +28,9 @@ export const fetchAllUsers=createAsyncThunk("user/fetchAllUsers",async(_,{reject
 
     }
 })
-export const updateUserAccount=createAsyncThunk("user/updateUserAccount",async({},{rejectWithValue})=>{
+export const updateUserAccount=createAsyncThunk("user/updateUserAccount",async({id,formData},{rejectWithValue})=>{
     try{
-        const response=await axios.put(`/updateuseraccount/${id}`,{headers:{Authorization:localStorage.getItem("token")}})
+        const response=await axios.put(`/updateuseraccount/${id}`,formData,{headers:{Authorization:localStorage.getItem("token")}})
         console.log(response.data)
         return response.data
     }catch(error){
@@ -163,14 +163,18 @@ const userSlice=createSlice({
         builder.addCase(removeUser.rejected,(state,action)=>{
             state.serverErr=action.payload
         })
-        builder.addCase(updateUserAccount.fulfilled,(state,action)=>{
-            const index=state.userData.findIndex((ele)=>ele._id===action.payload._id)
-            state.userData[index]=action.payload
-            state.isLoggedIn=true
-        })
-        builder.addCase(updateUserAccount.rejected,(state,action)=>{
-                    state.serverErr=action.payload
-        })
+        // builder.addCase(updateUserAccount.fulfilled,(state,action)=>{
+        //     const index=state.userData.findIndex((ele)=>ele._id===action.payload._id)
+        //     state.userData[index]=action.payload
+        //     state.isLoggedIn=true
+        // })
+        builder.addCase(updateUserAccount.fulfilled, (state, action) => {
+    state.userData = action.payload;
+    state.isLoggedIn = true;
+});
+        // builder.addCase(updateUserAccount.rejected,(state,action)=>{
+        //             state.serverErr=action.payload
+        // })
     }
 })
 export const{login,logout}=userSlice.actions

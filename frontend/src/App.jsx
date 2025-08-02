@@ -8,7 +8,7 @@ import { Sun, Moon } from "lucide-react";
 
 // import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
-import AccountPage from './components/Accounts';
+// import AccountPage from './components/Accounts';
 import ProfilePage from './components/ProfilePage';
 import AdminpaymentList from './pages/AdminpaymentslistPage';
 import About from './components/Abouts';
@@ -101,7 +101,7 @@ function App() {
                   <Link className="hover:underline" to="/admindashboard">Dashboard</Link>
                 </>
               )}
-              <Link className='hover:underline' to="/account">Account</Link>
+              <Link className='hover:underline' to="/account">Profile</Link>
               <Link className="hover:underline" to="/userBookingList">Booking List</Link>
               {userData?.role === 'user' && (
                 <>
@@ -148,7 +148,7 @@ function App() {
       <main className="flex-grow pt-20 p-6">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/account" element={<AccountPage />} />
+          <Route path="/account" element={<ProfilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
@@ -197,13 +197,7 @@ function App() {
           <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
           <Link to="/contact" className="hover:underline">Contact Us</Link>
         </div>
-        <div className="flex flex-col gap-2">
-          <Link to="/cars" className="hover:underline">Browse Cars</Link>
-          <Link to="/offers" className="hover:underline">Latest Offers</Link>
-          <Link to="/locations" className="hover:underline">Rental Locations</Link>
-          <Link to="/partner" className="hover:underline">Become a Partner</Link>
-          <Link to="/support" className="hover:underline">Support</Link>
-        </div>
+        
       </footer>
     </div>
   );
